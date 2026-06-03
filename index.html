@@ -1,133 +1,120 @@
-:root {
-    --bg-darken: #0a0a0c;
-    --panel-stone: #141419;
-    --border-iron: #2d2d37;
-    --text-silver: #b9b9c3;
-    --glow-crimson: #8b0000;
-    --accent-gold: #c5a059;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head><head>
+    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOPO GAME - Premium Edition</title>
+    </script>
+</head>
+<body>
 
-body {
-    margin: 0;
-    background-color: var(--bg-darken);
-    color: var(--text-silver);
-    /* הוספת פונטים אוניברסליים כמו Arial שיודעים להציג עברית ושפות אחרות אם הפונט הראשי נכשל */
-    font-family: 'Cinzel', 'Segoe UI', 'Arial', 'Times New Roman', serif;
-    overflow: hidden;
-}
-}
+    <div id="auth-overlay" class="modal-layer">
+        <div class="panel-box">
+            <h2 class="title-glow">AUTHENTICATION</h2>
+            <div id="login-form">
+                <input type="text" id="auth-identifier" placeholder="USERNAME OR EMAIL" class="dark-input">
+                <input type="password" id="auth-password" placeholder="PASSWORD" class="dark-input">
+                <div class="row-flex">
+                    <label class="check-container">
+                        <input type="checkbox" id="remember-me">
+                        <span class="checkmark"></span> REMEMBER ME
+                    </label>
+                    <span id="trigger-forgot" class="text-link">FORGOT PASSWORD?</span>
+                </div>
+                <button id="btn-login" class="premium-btn">ENTER REALM</button>
+                
+                <button id="btn-guest" class="premium-btn sub-btn" style="border-color: #4a4a5a; margin-top: 8px; width: 100%;">PLAY AS GUEST</button>
+                
+                <hr class="divider">
+                <button id="btn-toggle-register" class="sub-btn">CREATE ACCOUNT</button>
+            </div>
+        </div>
+    </div>
 
-/* שכבות רקע צפות ומסכים חוסמים */
-.modal-layer {
-    position: fixed;
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh;
-    background: rgba(4, 4, 5, 0.85);
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
-    z-index: 100;
-}
+    <div id="escape-menu" class="modal-layer hidden">
+        <div class="panel-box text-center">
+            <h2 class="title-glow">PAUSED</h2>
+            <button id="btn-resume-game" class="premium-btn action-main" style="margin-bottom: 12px; width: 100%;">CONTINUE</button>
+            <button id="btn-escape-settings" class="premium-btn" style="margin-bottom: 12px; width: 100%;">SETTINGS</button>
+            <button id="btn-leave-lobby" class="premium-btn" style="width: 100%; border-color: #551111;">LEAVE TO LOBBY</button>
+        </div>
+    </div>
 
-/* חלוניות התפריטים (פאנלים) */
-.panel-box {
-    background: var(--panel-stone);
-    border: 1px solid var(--border-iron);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.75), inset 0 0 15px rgba(139, 0, 0, 0.1);
-    padding: 40px;
-    width: 450px;
-    box-sizing: border-box;
-}
+    <div id="summary-overlay" class="modal-layer hidden">
+        <div class="panel-box assessment-box">
+            <h2 class="title-glow">MATCH RESOLUTION</h2>
+            <div class="metric-row">RANKING: <span id="res-rank" class="value-highlight">--</span></div>
+            <div class="metric-row">EXPERIENCE ACQUIRED: <span id="res-xp" class="value-highlight">--</span> XP</div>
+            <div class="metric-row">BOUNTY COLLECTED: <span id="res-coins" class="value-highlight">--</span> COINS</div>
+            <button id="btn-return-menu" class="premium-btn">RETURN TO LOBBY</button>
+        </div>
+    </div>
 
-/* כותרות מאירות */
-.title-glow {
-    text-align: center;
-    letter-spacing: 4px;
-    color: #ffffff;
-    text-shadow: 0 0 10px var(--glow-crimson);
-    font-size: 1.6rem;
-    margin-bottom: 30px;
-}
 
-/* סידור כפתורי התפריט הראשי */
-.navigation-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 280px;
-    margin: 0 auto;
-}
+    <div id="main-menu" class="menu-container hidden">
+        <h1 class="game-logo">TOPO</h1>
+        <div class="navigation-stack">
+            <button id="menu-play" class="premium-btn action-main">PLAY</button>
+            <button id="menu-group-code" class="premium-btn action-sub">GROUP CODE</button>
+            <button id="menu-shop" class="premium-btn">SHOP</button>
+            <button id="menu-skins" class="premium-btn">SKINS</button>
+            <button id="menu-lucky-wheel" class="premium-btn">LUCKY WHEEL</button>
+            <button id="menu-leaderboard" class="premium-btn">LEADERBOARD</button>
+            <button id="menu-profile" class="premium-btn">PROFILE</button>
+            <button id="menu-settings" class="premium-btn">SETTINGS</button>
+            <button id="menu-language" class="premium-btn">LANGUAGE</button>
+        </div>
 
-/* כפתור פרימיום מעוצב */
-.premium-btn {
-    background: linear-gradient(180deg, #1c1c24 0%, #121217 100%);
-    border: 1px solid var(--border-iron);
-    color: var(--text-silver);
-    padding: 14px 20px;
-    font-size: 0.9rem;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+        <div id="skins-panel" class="panel-box hidden" style="margin-top: 20px;">
+            <h2 class="title-glow">SKINS GALLERY</h2>
+            
+            <div class="custom-skin-upload">
+                <label for="skin-file-input" class="premium-btn" style="display: block; text-align: center;">
+                    UPLOAD CUSTOM IMAGE
+                </label>
+                <input type="file" id="skin-file-input" accept="image/*" style="display: none;">
+            </div>
+            
+            <div id="skins-list-container">
+                </div>
+        </div>
+    </div>
 
-.premium-btn:hover {
-    border-color: var(--accent-gold);
-    color: #ffffff;
-    box-shadow: 0 0 12px rgba(197, 160, 89, 0.2);
-}
+    <div id="group-lobby" class="panel-box hidden">
+        <h2 class="title-glow">PRIVATE CHAMBER</h2>
+        <div class="room-info-box">
+            <span>ROOM CODE:</span>
+            <span id="display-room-code" class="code-highlight">------</span>
+            <button id="btn-copy-code" class="icon-btn">COPY</button>
+        </div>
+        
+        <div class="lobby-columns">
+            <div class="player-list-pane">
+                <h3>CONGREGATION</h3>
+                <ul id="lobby-player-list"></ul>
+            </div>
+            <div class="room-configuration-pane">
+                <h3>PARAMETERS</h3>
+                <select id="room-max-capacity" class="dark-dropdown">
+                    <option value="2">2 PLAYERS</option>
+                    <option value="4">4 PLAYERS</option>
+                    <option value="8" selected>8 PLAYERS</option>
+                    <option value="16">16 PLAYERS</option>
+                    <option value="32">32 PLAYERS</option>
+                </select>
+                <div class="chat-wrapper">
+                    <div id="chat-output-box"></div>
+                    <input type="text" id="chat-input" placeholder="SEND MESSAGE..." class="dark-input">
+                </div>
+            </div>
+        </div>
+        <button id="btn-start-match" class="premium-btn action-main hidden">COMMENCE</button>
+    </div>
 
-/* כפתור פעולה ראשי (כמו PLAY) */
-.action-main {
-    border-color: var(--glow-crimson);
-}
 
-.action-main:hover {
-    border-color: #ff1a1a;
-    box-shadow: 0 0 15px rgba(255, 26, 26, 0.25);
-}
+    <div id="game-stage" class="hidden">
+        <div id="live-leaderboard-widget"></div>
+        <canvas id="gameCanvas" width="1920" height="1080"></canvas>
+    </div>
 
-/* שדות קלט וטקסט */
-.dark-input, .dark-dropdown {
-    width: 100%;
-    background: #0d0d11;
-    border: 1px solid var(--border-iron);
-    padding: 12px;
-    color: #ffffff;
-    box-sizing: border-box;
-    margin-bottom: 16px;
-    letter-spacing: 1px;
-}
-
-.dark-input:focus {
-    border-color: var(--accent-gold);
-    outline: none;
-}
-
-/* מחלקת עזר להסתרת אלמנטים */
-.hidden { 
-    display: none !important; 
-}
-
-/* ========================================== */
-/* עיצובים עבור התכונות החדשות (ESC & SKINS)   */
-/* ========================================== */
-
-.text-center {
-    text-align: center;
-}
-
-/* אזור העלאת תמונה אישית לסקין */
-.custom-skin-upload {
-    margin-bottom: 20px;
-    border: 1px dashed var(--accent-gold);
-    padding: 10px;
-    background: rgba(197, 160, 89, 0.05);
-}
-
-/* תפריט ה-ESC - מקבל עדיפות עליונה מעל המשחק */
-#escape-menu {
-    z-index: 150; 
-    background: rgba(4, 4, 5, 0.75); 
-}
+</body>
+</html>
