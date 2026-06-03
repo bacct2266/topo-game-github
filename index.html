@@ -1,127 +1,133 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TOPO GAME - Premium Dark Fantasy Edition</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+:root {
+    --bg-darken: #0a0a0c;
+    --panel-stone: #141419;
+    --border-iron: #2d2d37;
+    --text-silver: #b9b9c3;
+    --glow-crimson: #8b0000;
+    --accent-gold: #c5a059;
+}
 
-    <!-- Ambient Background Layer -->
-    <div id="bg-glow"></div>
+body {
+    margin: 0;
+    background-color: var(--bg-darken);
+    color: var(--text-silver);
+    /* הוספת פונטים אוניברסליים כמו Arial שיודעים להציג עברית ושפות אחרות אם הפונט הראשי נכשל */
+    font-family: 'Cinzel', 'Segoe UI', 'Arial', 'Times New Roman', serif;
+    overflow: hidden;
+}
+}
 
-    <!-- MAIN MENU / LOBBY SYSTEM -->
-    <div id="lobby-screen" class="screen active">
-        <header class="lobby-header">
-            <div class="user-summary-card">
-                <div class="avatar-ring">
-                    <canvas id="mini-avatar-canvas" width="50" height="50"></canvas>
-                </div>
-                <div class="user-summary-details">
-                    <span id="lbl-summary-name" class="text-glow">Player</span>
-                    <div class="xp-bar-container">
-                        <div id="summary-xp-fill" class="xp-bar-fill" style="width: 0%"></div>
-                        <span id="lbl-summary-level">Lv. 1</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="currency-widget">
-                <div class="currency-item">
-                    <svg class="icon-svg coin-gold" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9H10.5a2.5 2.5 0 0 0 0 5H14a2.5 2.5 0 0 1 0 5H9"/></svg>
-                    <span id="lbl-global-coins">0</span>
-                </div>
-            </div>
-        </header>
+/* שכבות רקע צפות ומסכים חוסמים */
+.modal-layer {
+    position: fixed;
+    top: 0; 
+    left: 0; 
+    width: 100vw; 
+    height: 100vh;
+    background: rgba(4, 4, 5, 0.85);
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    z-index: 100;
+}
 
-        <main class="lobby-centerpiece">
-            <h1 class="game-title">TOPO GAME</h1>
-            <p class="game-subtitle" id="lbl-game-subtitle">The Advanced Dark Fantasy Experience</p>
+/* חלוניות התפריטים (פאנלים) */
+.panel-box {
+    background: var(--panel-stone);
+    border: 1px solid var(--border-iron);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.75), inset 0 0 15px rgba(139, 0, 0, 0.1);
+    padding: 40px;
+    width: 450px;
+    box-sizing: border-box;
+}
 
-            <div class="action-core">
-                <input type="text" id="input-username" maxlength="14" placeholder="Enter Name..." value="Player">
-                <button id="btn-play-game" class="btn-primary ripple-effect">
-                    <span id="lbl-btn-play">PLAY</span>
-                </button>
-            </div>
-        </main>
+/* כותרות מאירות */
+.title-glow {
+    text-align: center;
+    letter-spacing: 4px;
+    color: #ffffff;
+    text-shadow: 0 0 10px var(--glow-crimson);
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+}
 
-        <!-- Navigation Matrix Grid -->
-        <nav class="lobby-navigation">
-            <button class="nav-card" data-target="panel-shop">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0"/></svg>
-                <span data-localize="nav_shop">SHOP</span>
-            </button>
-            <button class="nav-card" data-target="panel-skins">
-                <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7z"/></svg>
-                <span data-localize="nav_skins">SKINS</span>
-            </button>
-            <button class="nav-card" data-target="panel-wheel">
-                <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20M19.07 4.93L4.93 19.07M19.07 19.07L4.93 4.93"/></svg>
-                <span data-localize="nav_wheel">LUCKY WHEEL</span>
-            </button>
-            <button class="nav-card" data-target="panel-leaderboard">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <span data-localize="nav_leaderboard">LEADERBOARD</span>
-            </button>
-            <button class="nav-card" data-target="panel-profile">
-                <svg class="icon-svg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span data-localize="nav_profile">PROFILE</span>
-            </button>
-            <button class="nav-card" data-target="panel-settings">
-                <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                <span data-localize="nav_settings">SETTINGS</span>
-            </button>
-        </nav>
+/* סידור כפתורי התפריט הראשי */
+.navigation-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 280px;
+    margin: 0 auto;
+}
 
-        <!-- Dynamic Slide-out Overlay Sub-Panels -->
-        <div id="sub-panel-container" class="hidden">
-            <div class="panel-header-row">
-                <h2 id="panel-title-text">Panel View</h2>
-                <button id="btn-close-panel" class="close-square-btn">&times;</button>
-            </div>
-            <div id="panel-content-injection-zone"></div>
-        </div>
-    </div>
+/* כפתור פרימיום מעוצב */
+.premium-btn {
+    background: linear-gradient(180deg, #1c1c24 0%, #121217 100%);
+    border: 1px solid var(--border-iron);
+    color: var(--text-silver);
+    padding: 14px 20px;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
-    <!-- MAIN ACTIVE GAME VIEWPORT LAYER -->
-    <div id="game-screen" class="screen">
-        <canvas id="primary-game-canvas"></canvas>
-        
-        <!-- Live In-Game Heads Up Display Matrix -->
-        <div id="game-hud">
-            <div class="hud-top-left">
-                <div class="hud-metric"><span data-localize="hud_score">Score</span>: <strong id="hud-val-score">0</strong></div>
-                <div class="hud-metric"><span data-localize="hud_size">Size</span>: <strong id="hud-val-size">20</strong></div>
-                <div class="hud-metric"><span data-localize="hud_level">Level</span>: <strong id="hud-val-level">1</strong></div>
-            </div>
-            <div class="hud-top-right">
-                <div class="hud-metric font-gold">
-                    <svg class="icon-svg coin-gold inline-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M15 9H10.5a2.5 2.5 0 0 0 0 5H14a2.5 2.5 0 0 1 0 5H9"/></svg>
-                    <strong id="hud-val-coins">0</strong>
-                </div>
-                <div class="hud-metric"><span data-localize="hud_best">Best</span>: <strong id="hud-val-best">0</strong></div>
-            </div>
-            
-            <!-- Mobile Virtual Joystick Controller Container Zone -->
-            <div id="virtual-joystick-zone">
-                <div id="joystick-base">
-                    <div id="joystick-stick"></div>
-                </div>
-            </div>
-        </div>
-    </div>
+.premium-btn:hover {
+    border-color: var(--accent-gold);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(197, 160, 89, 0.2);
+}
 
-    <!-- NOTIFICATION MATRIX SYSTEMS AND MODALS -->
-    <div id="global-modal-overlay" class="hidden">
-        <div class="modal-card">
-            <h3 id="modal-title">Reward Claimed</h3>
-            <div id="modal-body"></div>
-            <button id="btn-modal-dismiss" class="btn-secondary">Confirm</button>
-        </div>
-    </div>
+/* כפתור פעולה ראשי (כמו PLAY) */
+.action-main {
+    border-color: var(--glow-crimson);
+}
 
-    <script src="game.js"></script>
-</body>
-</html>
+.action-main:hover {
+    border-color: #ff1a1a;
+    box-shadow: 0 0 15px rgba(255, 26, 26, 0.25);
+}
+
+/* שדות קלט וטקסט */
+.dark-input, .dark-dropdown {
+    width: 100%;
+    background: #0d0d11;
+    border: 1px solid var(--border-iron);
+    padding: 12px;
+    color: #ffffff;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+}
+
+.dark-input:focus {
+    border-color: var(--accent-gold);
+    outline: none;
+}
+
+/* מחלקת עזר להסתרת אלמנטים */
+.hidden { 
+    display: none !important; 
+}
+
+/* ========================================== */
+/* עיצובים עבור התכונות החדשות (ESC & SKINS)   */
+/* ========================================== */
+
+.text-center {
+    text-align: center;
+}
+
+/* אזור העלאת תמונה אישית לסקין */
+.custom-skin-upload {
+    margin-bottom: 20px;
+    border: 1px dashed var(--accent-gold);
+    padding: 10px;
+    background: rgba(197, 160, 89, 0.05);
+}
+
+/* תפריט ה-ESC - מקבל עדיפות עליונה מעל המשחק */
+#escape-menu {
+    z-index: 150; 
+    background: rgba(4, 4, 5, 0.75); 
+}
