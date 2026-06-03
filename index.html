@@ -1,57 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><head>
-    <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TOPO GAME - Premium Edition</title>
-    </script>
+    <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="game.js" defer></script>
 </head>
 <body>
 
-    <div id="auth-overlay" class="modal-layer">
-        <div class="panel-box">
-            <h2 class="title-glow">AUTHENTICATION</h2>
-            <div id="login-form">
-                <input type="text" id="auth-identifier" placeholder="USERNAME OR EMAIL" class="dark-input">
-                <input type="password" id="auth-password" placeholder="PASSWORD" class="dark-input">
-                <div class="row-flex">
-                    <label class="check-container">
-                        <input type="checkbox" id="remember-me">
-                        <span class="checkmark"></span> REMEMBER ME
-                    </label>
-                    <span id="trigger-forgot" class="text-link">FORGOT PASSWORD?</span>
-                </div>
-                <button id="btn-login" class="premium-btn">ENTER REALM</button>
-                
-                <button id="btn-guest" class="premium-btn sub-btn" style="border-color: #4a4a5a; margin-top: 8px; width: 100%;">PLAY AS GUEST</button>
-                
-                <hr class="divider">
-                <button id="btn-toggle-register" class="sub-btn">CREATE ACCOUNT</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="escape-menu" class="modal-layer hidden">
-        <div class="panel-box text-center">
-            <h2 class="title-glow">PAUSED</h2>
-            <button id="btn-resume-game" class="premium-btn action-main" style="margin-bottom: 12px; width: 100%;">CONTINUE</button>
-            <button id="btn-escape-settings" class="premium-btn" style="margin-bottom: 12px; width: 100%;">SETTINGS</button>
-            <button id="btn-leave-lobby" class="premium-btn" style="width: 100%; border-color: #551111;">LEAVE TO LOBBY</button>
-        </div>
-    </div>
-
-    <div id="summary-overlay" class="modal-layer hidden">
-        <div class="panel-box assessment-box">
-            <h2 class="title-glow">MATCH RESOLUTION</h2>
-            <div class="metric-row">RANKING: <span id="res-rank" class="value-highlight">--</span></div>
-            <div class="metric-row">EXPERIENCE ACQUIRED: <span id="res-xp" class="value-highlight">--</span> XP</div>
-            <div class="metric-row">BOUNTY COLLECTED: <span id="res-coins" class="value-highlight">--</span> COINS</div>
-            <button id="btn-return-menu" class="premium-btn">RETURN TO LOBBY</button>
-        </div>
-    </div>
-
-
-    <div id="main-menu" class="menu-container hidden">
+    <div id="main-menu" class="menu-container">
         <h1 class="game-logo">TOPO</h1>
+        
         <div class="navigation-stack">
             <button id="menu-play" class="premium-btn action-main">PLAY</button>
             <button id="menu-group-code" class="premium-btn action-sub">GROUP CODE</button>
@@ -63,30 +24,26 @@
             <button id="menu-settings" class="premium-btn">SETTINGS</button>
             <button id="menu-language" class="premium-btn">LANGUAGE</button>
         </div>
-
-        <div id="skins-panel" class="panel-box hidden" style="margin-top: 20px;">
-            <h2 class="title-glow">SKINS GALLERY</h2>
-            
-            <div class="custom-skin-upload">
-                <label for="skin-file-input" class="premium-btn" style="display: block; text-align: center;">
-                    UPLOAD CUSTOM IMAGE
-                </label>
-                <input type="file" id="skin-file-input" accept="image/*" style="display: none;">
-            </div>
-            
-            <div id="skins-list-container">
-                </div>
-        </div>
     </div>
 
-    <div id="group-lobby" class="panel-box hidden">
+    <div id="skins-panel" class="panel-box" style="display: none; margin-top: 20px;">
+        <h2 class="title-glow">SKINS GALLERY</h2>
+        <div class="custom-skin-upload">
+            <label for="skin-file-input" class="premium-btn" style="display: block; text-align: center;">
+                UPLOAD CUSTOM IMAGE
+            </label>
+            <input type="file" id="skin-file-input" accept="image/*" style="display: none;">
+        </div>
+        <div id="skins-list-container"></div>
+    </div>
+
+    <div id="group-lobby" class="panel-box" style="display: none;">
         <h2 class="title-glow">PRIVATE CHAMBER</h2>
         <div class="room-info-box">
             <span>ROOM CODE:</span>
             <span id="display-room-code" class="code-highlight">------</span>
             <button id="btn-copy-code" class="icon-btn">COPY</button>
         </div>
-        
         <div class="lobby-columns">
             <div class="player-list-pane">
                 <h3>CONGREGATION</h3>
@@ -107,11 +64,49 @@
                 </div>
             </div>
         </div>
-        <button id="btn-start-match" class="premium-btn action-main hidden">COMMENCE</button>
+        <button id="btn-start-match" class="premium-btn action-main" style="display: none;">COMMENCE</button>
     </div>
 
+    <div id="auth-overlay" class="modal-layer" style="display: none;">
+        <div class="panel-box">
+            <h2 class="title-glow">AUTHENTICATION</h2>
+            <div id="login-form">
+                <input type="text" id="auth-identifier" placeholder="USERNAME OR EMAIL" class="dark-input">
+                <input type="password" id="auth-password" placeholder="PASSWORD" class="dark-input">
+                <div class="row-flex" style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                    <label class="check-container">
+                        <input type="checkbox" id="remember-me"> REMEMBER ME
+                    </label>
+                    <span id="trigger-forgot" class="text-link" style="cursor: pointer;">FORGOT PASSWORD?</span>
+                </div>
+                <button id="btn-login" class="premium-btn" style="width: 100%;">ENTER REALM</button>
+                <button id="btn-guest" class="premium-btn sub-btn" style="border-color: #4a4a5a; margin-top: 8px; width: 100%;">PLAY AS GUEST</button>
+                <hr class="divider" style="border-color: #2d2d37; margin: 20px 0;">
+                <button id="btn-toggle-register" class="sub-btn" style="width: 100%; background: none; border: none; color: #b9b9c3; cursor: pointer;">CREATE ACCOUNT</button>
+            </div>
+        </div>
+    </div>
 
-    <div id="game-stage" class="hidden">
+    <div id="escape-menu" class="modal-layer" style="display: none;">
+        <div class="panel-box text-center">
+            <h2 class="title-glow">PAUSED</h2>
+            <button id="btn-resume-game" class="premium-btn action-main" style="margin-bottom: 12px; width: 100%;">CONTINUE</button>
+            <button id="btn-escape-settings" class="premium-btn" style="margin-bottom: 12px; width: 100%;">SETTINGS</button>
+            <button id="btn-leave-lobby" class="premium-btn" style="width: 100%; border-color: #551111;">LEAVE TO LOBBY</button>
+        </div>
+    </div>
+
+    <div id="summary-overlay" class="modal-layer" style="display: none;">
+        <div class="panel-box assessment-box">
+            <h2 class="title-glow">MATCH RESOLUTION</h2>
+            <div class="metric-row">RANKING: <span id="res-rank" class="value-highlight">--</span></div>
+            <div class="metric-row">EXPERIENCE ACQUIRED: <span id="res-xp" class="value-highlight">--</span> XP</div>
+            <div class="metric-row">BOUNTY COLLECTED: <span id="res-coins" class="value-highlight">--</span> COINS</div>
+            <button id="btn-return-menu" class="premium-btn" style="width: 100%; margin-top: 20px;">RETURN TO LOBBY</button>
+        </div>
+    </div>
+
+    <div id="game-stage" style="display: none;">
         <div id="live-leaderboard-widget"></div>
         <canvas id="gameCanvas" width="1920" height="1080"></canvas>
     </div>
