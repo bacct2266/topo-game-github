@@ -1,3 +1,7 @@
+/* יבוא פונט פנטזיה גותי מ-Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+/* הגדרת משתני צבע קבועים (Dark Fantasy Theme) */
 :root {
     --bg-darken: #0a0a0c;
     --panel-stone: #141419;
@@ -5,129 +9,210 @@
     --text-silver: #b9b9c3;
     --glow-crimson: #8b0000;
     --accent-gold: #c5a059;
+    --chat-bg: #0d0d11;
 }
 
+/* הגדרות בסיס לאתר */
 body {
     margin: 0;
-    background-color: var(--bg-darken);
+    padding: 0;
+    background-color: var(--bg-darken) !important;
     color: var(--text-silver);
-    /* הוספת פונטים אוניברסליים כמו Arial שיודעים להציג עברית ושפות אחרות אם הפונט הראשי נכשל */
-    font-family: 'Cinzel', 'Segoe UI', 'Arial', 'Times New Roman', serif;
+    font-family: 'Cinzel', 'Segoe UI', 'Arial', serif;
     overflow: hidden;
-}
+    user-select: none;
 }
 
-/* שכבות רקע צפות ומסכים חוסמים */
-.modal-layer {
-    position: fixed;
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh;
-    background: rgba(4, 4, 5, 0.85);
-    display: flex; 
-    justify-content: center; 
+/* ========================================== */
+/* 1. מבנה הלובי הראשי והתפריטים             */
+/* ========================================== */
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    z-index: 100;
-}
-
-/* חלוניות התפריטים (פאנלים) */
-.panel-box {
-    background: var(--panel-stone);
-    border: 1px solid var(--border-iron);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.75), inset 0 0 15px rgba(139, 0, 0, 0.1);
-    padding: 40px;
-    width: 450px;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--bg-darken);
+    padding: 20px;
     box-sizing: border-box;
 }
 
-/* כותרות מאירות */
-.title-glow {
-    text-align: center;
-    letter-spacing: 4px;
+.game-logo {
+    font-size: 4rem;
+    letter-spacing: 12px;
     color: #ffffff;
-    text-shadow: 0 0 10px var(--glow-crimson);
-    font-size: 1.6rem;
-    margin-bottom: 30px;
+    text-shadow: 0 0 20px var(--glow-crimson), 0 0 40px rgba(139, 0, 0, 0.6);
+    margin-bottom: 40px;
+    margin-top: 0;
 }
 
-/* סידור כפתורי התפריט הראשי */
 .navigation-stack {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    width: 280px;
-    margin: 0 auto;
+    gap: 14px;
+    width: 320px;
 }
 
-/* כפתור פרימיום מעוצב */
+/* ========================================== */
+/* 2. כפתורים מעוצבים (Premium Buttons)        */
+/* ========================================== */
+
 .premium-btn {
     background: linear-gradient(180deg, #1c1c24 0%, #121217 100%);
     border: 1px solid var(--border-iron);
     color: var(--text-silver);
-    padding: 14px 20px;
-    font-size: 0.9rem;
+    padding: 16px 24px;
+    font-size: 0.95rem;
+    font-weight: bold;
     letter-spacing: 2px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-transform: uppercase;
 }
 
 .premium-btn:hover {
     border-color: var(--accent-gold);
     color: #ffffff;
-    box-shadow: 0 0 12px rgba(197, 160, 89, 0.2);
+    box-shadow: 0 0 15px rgba(197, 160, 89, 0.35);
+    transform: translateY(-2px);
 }
 
-/* כפתור פעולה ראשי (כמו PLAY) */
+.premium-btn:active {
+    transform: translateY(0);
+}
+
+/* כפתור PLAY (אדום בוהק) */
 .action-main {
     border-color: var(--glow-crimson);
+    text-shadow: 0 0 5px rgba(255, 26, 26, 0.5);
 }
 
 .action-main:hover {
     border-color: #ff1a1a;
-    box-shadow: 0 0 15px rgba(255, 26, 26, 0.25);
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.4);
+    color: #ffffff;
 }
 
-/* שדות קלט וטקסט */
+/* כפתור משני (כמו GROUP CODE) */
+.action-sub {
+    border-color: #3a506b;
+}
+
+.action-sub:hover {
+    border-color: #5bc0be;
+    box-shadow: 0 0 20px rgba(91, 192, 190, 0.3);
+}
+
+/* ========================================== */
+/* 3. חלוניות, פאנלים ושדות קלט               */
+/* ========================================== */
+
+.panel-box {
+    background: var(--panel-stone);
+    border: 1px solid var(--border-iron);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(139, 0, 0, 0.05);
+    padding: 35px;
+    width: 100%;
+    max-width: 500px;
+    box-sizing: border-box;
+    margin: 20px auto;
+}
+
+.title-glow {
+    text-align: center;
+    letter-spacing: 4px;
+    color: #ffffff;
+    text-shadow: 0 0 10px var(--glow-crimson);
+    font-size: 1.8rem;
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+}
+
 .dark-input, .dark-dropdown {
     width: 100%;
     background: #0d0d11;
     border: 1px solid var(--border-iron);
-    padding: 12px;
+    padding: 14px;
     color: #ffffff;
     box-sizing: border-box;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     letter-spacing: 1px;
+    font-family: inherit;
 }
 
-.dark-input:focus {
+.dark-input:focus, .dark-dropdown:focus {
     border-color: var(--accent-gold);
     outline: none;
-}
-
-/* מחלקת עזר להסתרת אלמנטים */
-.hidden { 
-    display: none !important; 
+    box-shadow: 0 0 10px rgba(197, 160, 89, 0.2);
 }
 
 /* ========================================== */
-/* עיצובים עבור התכונות החדשות (ESC & SKINS)   */
+/* 4. שכבות מסכים צפים (Overlays & Modals)   */
 /* ========================================== */
 
-.text-center {
-    text-align: center;
+.modal-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(4, 4, 5, 0.88);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
 }
 
-/* אזור העלאת תמונה אישית לסקין */
-.custom-skin-upload {
-    margin-bottom: 20px;
-    border: 1px dashed var(--accent-gold);
-    padding: 10px;
-    background: rgba(197, 160, 89, 0.05);
-}
-
-/* תפריט ה-ESC - מקבל עדיפות עליונה מעל המשחק */
+/* עדיפות עליונה לתפריט ה-ESC */
 #escape-menu {
-    z-index: 150; 
-    background: rgba(4, 4, 5, 0.75); 
+    z-index: 150;
+    background: rgba(3, 3, 4, 0.75);
+    backdrop-filter: blur(4px); /* טשטוש עדין של המשחק מאחור */
 }
+
+/* ========================================== */
+/* 5. מערכת חדרים פרטיים וצ'אט (Group Lobby)   */
+/* ========================================== */
+
+#group-lobby {
+    max-width: 800px;
+}
+
+.room-info-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    background: #0d0d11;
+    padding: 15px;
+    border: 1px solid var(--border-iron);
+    margin-bottom: 25px;
+    font-size: 1.1rem;
+}
+
+.code-highlight {
+    color: var(--accent-gold);
+    font-weight: bold;
+    letter-spacing: 3px;
+    font-size: 1.3rem;
+}
+
+.lobby-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.player-list-pane, .room-configuration-pane {
+    background: #09090c;
+    border: 1px solid var(--border-iron);
+    padding: 15px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.player-list-pane h3, .room-configuration-pane
