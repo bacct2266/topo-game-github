@@ -1,1 +1,1175 @@
-/** * TOPO GAME - Modern Premium Core Engine Architecture * Clean production-grade codebase with modular subsystems wrapped inside an execution lifecycle. */(function () {    'use strict';    // =========================================================================    // 1. DATA DICTIONARIES AND SYSTEMS REPOSITORIES    // =========================================================================    const LOCALIZATION_MATRIX = {        en: {            nav_shop: "SHOP", nav_skins: "SKINS", nav_wheel: "LUCKY WHEEL", nav_leaderboard: "LEADERBOARD", nav_profile: "PROFILE", nav_settings: "SETTINGS",            hud_score: "Score", hud_size: "Size", hud_level: "Level", hud_best: "Best",            lbl_wheel_spin: "SPIN WHEEL", lbl_wheel_cost: "Cost: 50 Coins", lbl_claim_daily: "CLAIM DAILY REWARD", lbl_next_reward: "Next Reward in:",            lbl_purchase: "Purchase", lbl_equip: "Equip", lbl_equipped: "Equipped", lbl_owned: "Owned"        },        he: {            nav_shop: "çðåú", nav_skins: "ñ÷éðéí", nav_wheel: "âìâì äîæì", nav_leaderboard: "îåáéìéí", nav_profile: "ôøåôéì", nav_settings: "äâãøåú",            hud_score: "ðé÷åã", hud_size: "âåãì", hud_level: "øîä", hud_best: "ùéà",            lbl_wheel_spin: "ñåáá âìâì", lbl_wheel_cost: "òìåú: 50 îèáòåú", lbl_claim_daily: "÷áì ôøñ éåîé", lbl_next_reward: "äôøñ äáà áòåã:",            lbl_purchase: "øëåù", lbl_equip: "öééã", lbl_equipped: "îöåéã", lbl_owned: "ááòìåúê"        },        es: {            nav_shop: "TIENDA", nav_skins: "ASPECTOS", nav_wheel: "RUEDA FORTUNA", nav_leaderboard: "L?DERES", nav_profile: "PERFIL", nav_settings: "AJUSTES",            hud_score: "Puntos", hud_size: "Tama?o", hud_level: "Nivel", hud_best: "R?cord",            lbl_wheel_spin: "GIRAR RUEDA", lbl_wheel_cost: "Costo: 50 Monedas", lbl_claim_daily: "RECOMPENSA DIARIA", lbl_next_reward: "Siguiente en:",            lbl_purchase: "Comprar", lbl_equip: "Equipar", lbl_equipped: "Equipado", lbl_owned: "Comprado"        },        ja: {            nav_shop: "????", nav_skins: "???", nav_wheel: "????????", nav_leaderboard: "?????", nav_profile: "??????", nav_settings: "??",            hud_score: "???", hud_size: "???", hud_level: "???", hud_best: "???",            lbl_wheel_spin: "???????", lbl_wheel_cost: "??: 50 ???", lbl_claim_daily: "?????????", lbl_next_reward: "??????:",            lbl_purchase: "????", lbl_equip: "????", lbl_equipped: "???", lbl_owned: "????"        },        zh: {            nav_shop: "??", nav_skins: "??", nav_wheel: "????", nav_leaderboard: "???", nav_profile: "????", nav_settings: "??",            hud_score: "??", hud_size: "??", hud_level: "??", hud_best: "???",            lbl_wheel_spin: "????", lbl_wheel_cost: "??: 50 ??", lbl_claim_daily: "??????", lbl_next_reward: "?????:",            lbl_purchase: "??", lbl_equip: "??", lbl_equipped: "???", lbl_owned: "???"        },        ko: {            nav_shop: "??", nav_skins: "??", nav_wheel: "??? ??", nav_leaderboard: "???", nav_profile: "???", nav_settings: "??",            hud_score: "??", hud_size: "??", hud_level: "??", hud_best: "?? ??",            lbl_wheel_spin: "?? ???", lbl_wheel_cost: "??: 50 ??", lbl_claim_daily: "?? ?? ??", lbl_next_reward: "?? ????:",            lbl_purchase: "??", lbl_equip: "??", lbl_equipped: "???", lbl_owned: "???"        },        fr: {            nav_shop: "BOUTIQUE", nav_skins: "SKINS", nav_wheel: "ROUE CHANCE", nav_leaderboard: "CLASSEMENT", nav_profile: "PROFIL", nav_settings: "REGLAGES",            hud_score: "Score", hud_size: "Taille", hud_level: "Niveau", hud_best: "Meilleur",            lbl_wheel_spin: "TOURNER ROUE", lbl_wheel_cost: "Co?t: 50 Pi?ces", lbl_claim_daily: "RECOMPENSE JOUR", lbl_next_reward: "Suivant dans:",            lbl_purchase: "Acheter", lbl_equip: "?quiper", lbl_equipped: "?quip?", lbl_owned: "Poss?d?"        },        de: {            nav_shop: "LADEN", nav_skins: "SKINS", nav_wheel: "GL?CKSRAD", nav_leaderboard: "RANGLISTE", nav_profile: "PROFIL", nav_settings: "OPTIONEN",            hud_score: "Punkte", hud_size: "Gr??e", hud_level: "Stufe", hud_best: "Rekord",            lbl_wheel_spin: "RAD DREHEN", lbl_wheel_cost: "Kosten: 50 M?nzen", lbl_claim_daily: "BONUS CLAIMEN", lbl_next_reward: "N?chster Bonus in:",            lbl_purchase: "Kaufen", lbl_equip: "Ausr?sten", lbl_equipped: "Ausger?stet", lbl_owned: "Besessen"        },        ru: {            nav_shop: "???????", nav_skins: "??????", nav_wheel: "??????", nav_leaderboard: "??????", nav_profile: "???????", nav_settings: "?????????",            hud_score: "????", hud_size: "??????", hud_level: "???????", hud_best: "??????",            lbl_wheel_spin: "???????", lbl_wheel_cost: "????: 50 ?????", lbl_claim_daily: "???????", lbl_next_reward: "?? ???????:",            lbl_purchase: "??????", lbl_equip: "??????", lbl_equipped: "???????????", lbl_owned: "???????"        },        pt: {            nav_shop: "LOJA", nav_skins: "VISUAIS", nav_wheel: "RODA DA SORTE", nav_leaderboard: "RANKING", nav_profile: "PERFIL", nav_settings: "AJUSTES",            hud_score: "Pontos", hud_size: "Tamanho", hud_level: "N?vel", hud_best: "Recorde",            lbl_wheel_spin: "GIRAR RODA", lbl_wheel_cost: "Custo: 50 Moedas", lbl_claim_daily: "RECOMPENSA DI?RIA", lbl_next_reward: "Pr?xima em:",            lbl_purchase: "Comprar", lbl_equip: "Equipar", lbl_equipped: "Equipado", lbl_owned: "Adquirido"        },        it: {            nav_shop: "NEGOZIO", nav_skins: "SKIN", nav_wheel: "RUOTA FORTUNA", nav_leaderboard: "CLASSIFICA", nav_profile: "PROFILO", nav_settings: "OPZIONI",            hud_score: "Punti", hud_size: "Taglia", hud_level: "Livello", hud_best: "Record",            lbl_wheel_spin: "GIRA RUOTA", lbl_wheel_cost: "Costo: 50 Monete", lbl_claim_daily: "PREMIO GIORNALIERO", lbl_next_reward: "Prossimo in:",            lbl_purchase: "Acquista", lbl_equip: "Equipaggia", lbl_equipped: "Equipaggiato", lbl_owned: "Posseduto"        },        tr: {            nav_shop: "MA?AZA", nav_skins: "KOST?MLER", nav_wheel: "?ARK", nav_leaderboard: "SIRA", nav_profile: "PROF?L", nav_settings: "AYARLAR",            hud_score: "Skor", hud_size: "Boyut", hud_level: "Seviye", hud_best: "En ?yi",            lbl_wheel_spin: "?ARKI ?EV?R", lbl_wheel_cost: "Maliyet: 50 Alt?n", lbl_claim_daily: "G?NL?K ?D?L AL", lbl_next_reward: "Kalan S?re:",            lbl_purchase: "Sat?n Al", lbl_equip: "Ku?an", lbl_equipped: "Ku?an?ld?", lbl_owned: "Sahipsin"        },        hi: {            nav_shop: "?????", nav_skins: "?????", nav_wheel: "????? ????", nav_leaderboard: "?????????", nav_profile: "????????", nav_settings: "????????",            hud_score: "???", hud_size: "????", hud_level: "????", hud_best: "???????????",            lbl_wheel_spin: "????? ??????", lbl_wheel_cost: "????: 50 ??????", lbl_claim_daily: "????? ????????", lbl_next_reward: "???? ????????:",            lbl_purchase: "??????", lbl_equip: "?????? ????", lbl_equipped: "??????", lbl_owned: "?????????"        },        ar: {            nav_shop: "??????", nav_skins: "???????", nav_wheel: "???? ????", nav_leaderboard: "?????????", nav_profile: "????? ??????", nav_settings: "?????????",            hud_score: "??????", hud_size: "?????", hud_level: "???????", hud_best: "???? ?????",            lbl_wheel_spin: "??? ??????", lbl_wheel_cost: "???????: 50 ????", lbl_claim_daily: "???????? ???????", lbl_next_reward: "???????? ??????? ????:",            lbl_purchase: "????", lbl_equip: "?????", lbl_equipped: "????", lbl_owned: "?????"        }    };    const RARITY_VALUES = {        common: { name: "Common", cost: 1, color: "#9da3af" },        uncommon: { name: "Uncommon", cost: 10, color: "#1eff00" },        epic: { name: "Epic", cost: 50, color: "#0070dd" },        amazing: { name: "Amazing", cost: 100, color: "#a335ee" },        legendary: { name: "Legendary", cost: 500, color: "#ff8000" }    };    const SKIN_REGISTRY = [        { id: "fire", rarity: "common", renderType: "plasma", primary: "#ff3300", secondary: "#ffaa00" },        { id: "ice", rarity: "common", renderType: "frost", primary: "#00ddff", secondary: "#ffffff" },        { id: "shadow", rarity: "uncommon", renderType: "abyss", primary: "#111118", secondary: "#4400aa" },        { id: "neon", rarity: "uncommon", renderType: "pulse", primary: "#00ffcc", secondary: "#003322" },        { id: "galaxy", rarity: "epic", renderType: "nebula", primary: "#220066", secondary: "#ff00aa" },        { id: "crystal", rarity: "epic", renderType: "prism", primary: "#e8c3ff", secondary: "#a335ee" },        { id: "gold", rarity: "amazing", renderType: "metallic", primary: "#ffe600", secondary: "#885500" },        { id: "dragon", rarity: "amazing", renderType: "scales", primary: "#cc0000", secondary: "#330000" },        { id: "ancient", rarity: "legendary", renderType: "rune", primary: "#00ff66", secondary: "#002208" },        { id: "topo_exclusive", rarity: "legendary", renderType: "matrix", primary: "#00ffff", secondary: "#ffffff" }    ];    const FOOD_CONFIG = {        common: { value: 1, chance: 0.65, radius: 4, color: "#00ff88", glow: 4 },        uncommon: { value: 3, chance: 0.20, radius: 6, color: "#00aaff", glow: 8 },        rare: { value: 5, chance: 0.10, radius: 8, color: "#aa33ff", glow: 12 },        epic: { value: 10, chance: 0.04, radius: 10, color: "#ff00aa", glow: 16 },        legendary: { value: 20, chance: 0.01, radius: 13, color: "#ffaa00", glow: 22 }    };    // =========================================================================    // 2. CORE STORAGE ENGINE STATE    // =========================================================================    let profileState = {        username: "Player",        coins: 10,        level: 1,        xp: 0,        bestScore: 0,        bestSize: 20,        gamesPlayed: 0,        ownedSkins: ["fire"],        equippedSkin: "fire",        wheelHistory: [],        lastDailyClaimTimestamp: 0,        settings: {            soundVolume: 70,            musicVolume: 50,            graphicsQuality: "high",            language: "en"        }    };    function loadProfileFromStorage() {        const payload = localStorage.getItem("TOPO_GAME_STATE_DATA");        if (payload) {            try {                const parsed = JSON.parse(payload);                profileState = { ...profileState, ...parsed };            } catch (e) {                console.error("State recovery corrupted, rolling defaults.", e);            }        }    }    function writeProfileToStorage() {        localStorage.setItem("TOPO_GAME_STATE_DATA", JSON.stringify(profileState));        syncUiIndicators();    }    // =========================================================================    // 3. ENGINE STATE VARIABLES & ENTITIES    // =========================================================================    const MAP_BOUNDS = 2500;    let canvas, ctx;    let isRunning = false;    let animationFrameId = null;    // View Engine Virtual Positioning Matrix    let playerPos = { x: 1250, y: 1250 };    let playerTargetPos = { x: 1250, y: 1250 };    let playerSize = 20;    let playerTargetSize = 20;    let currentScore = 0;    let foodEntities = [];    let particleEntities = [];    // Controller Input Tracking Systems    let pointerCoordinates = { x: 0, y: 0 };    let activeKeys = {};    let isMobileDevice = false;    let joystickControlVector = { x: 0, y: 0 };    // =========================================================================    // 4. UI SECTIONS ROUTER AND INTERFACE INJECTION    // =========================================================================    function initInterfaceListeners() {        isMobileDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);        if (isMobileDevice) {            document.getElementById("virtual-joystick-zone").style.display = "block";            setupMobileJoystick();        }        // Interface Views Router Wireframes        document.querySelectorAll(".nav-card").forEach(card => {            card.addEventListener("click", () => {                const targetPanelId = card.getAttribute("data-target");                renderTargetPanelData(targetPanelId);            });        });        document.getElementById("btn-close-panel").addEventListener("click", () => {            document.getElementById("sub-panel-container").classList.add("hidden");        });        document.getElementById("btn-play-game").addEventListener("click", () => {            const rawName = document.getElementById("input-username").value.trim();            profileState.username = rawName || "Player";            writeProfileToStorage();            enterActiveGameplayLoop();        });        document.getElementById("btn-modal-dismiss").addEventListener("click", () => {            document.getElementById("global-modal-overlay").classList.add("hidden");        });        window.addEventListener("keydown", (e) => { activeKeys[e.key.toLowerCase()] = true; });        window.addEventListener("keyup", (e) => { activeKeys[e.key.toLowerCase()] = false; });        window.addEventListener("resize", handleWindowResizeViewport);        localizeDomTree(profileState.settings.language);        syncUiIndicators();        drawMiniAvatar();    }    function syncUiIndicators() {        document.getElementById("lbl-global-coins").innerText = profileState.coins;        document.getElementById("lbl-summary-name").innerText = profileState.username;        document.getElementById("lbl-summary-level").innerText = "Lv. " + profileState.level;                const xpNeeded = profileState.level * 150;        const pct = Math.min(100, (profileState.xp / xpNeeded) * 100);        document.getElementById("summary-xp-fill").style.width = pct + "%";    }    function localizeDomTree(langCode) {        profileState.settings.language = langCode;        const pack = LOCALIZATION_MATRIX[langCode] || LOCALIZATION_MATRIX["en"];        document.querySelectorAll("[data-localize]").forEach(el => {            const key = el.getAttribute("data-localize");            if (pack[key]) el.innerText = pack[key];        });                const playButtonLabels = { en: "PLAY", he: "îùç÷", es: "JUGAR", ja: "???", zh: "????", ko: "???", fr: "JOUER", de: "SPIELEN", ru: "??????", pt: "JOGAR", it: "GIOCA", tr: "OYNAT", hi: "?????", ar: "????" };        document.getElementById("lbl-btn-play").innerText = playButtonLabels[langCode] || "PLAY";    }    function showSystemDialog(title, description) {        document.getElementById("modal-title").innerText = title;        document.getElementById("modal-body").innerText = description;        document.getElementById("global-modal-overlay").classList.remove("hidden");    }    // =========================================================================    // 5. RENDERING INJECTIONS FOR SUB-PANELS    // =========================================================================    function renderTargetPanelData(panelId) {        const zone = document.getElementById("panel-content-injection-zone");        const title = document.getElementById("panel-title-text");        const lang = profileState.settings.language;        const pack = LOCALIZATION_MATRIX[lang] || LOCALIZATION_MATRIX["en"];        document.getElementById("sub-panel-container").classList.remove("hidden");        zone.innerHTML = "";        if (panelId === "panel-shop" || panelId === "panel-skins") {            title.innerText = panelId === "panel-shop" ? pack.nav_shop : pack.nav_skins;            const container = document.createElement("div");            container.className = "grid-2col";            SKIN_REGISTRY.forEach(skin => {                const isOwned = profileState.ownedSkins.includes(skin.id);                const isEquipped = profileState.equippedSkin === skin.id;                const configRarity = RARITY_VALUES[skin.rarity];                // If rendering inside shop, skip items already owned                if (panelId === "panel-shop" && isOwned) return;                const card = document.createElement("div");                card.className = "shop-item-card";                const previewCanvas = document.createElement("canvas");                previewCanvas.className = "skin-preview-render-box";                previewCanvas.width = 70;                previewCanvas.height = 70;                                card.appendChild(previewCanvas);                const nameTag = document.createElement("h4");                nameTag.innerText = skin.id.replace("_", " ").toUpperCase();                card.appendChild(nameTag);                const rarityLabel = document.createElement("span");                rarityLabel.className = "rarity-tag";                rarityLabel.style.color = configRarity.color;                rarityLabel.innerText = configRarity.name;                card.appendChild(rarityLabel);                const actionBtn = document.createElement("button");                if (panelId === "panel-shop") {                    actionBtn.className = "btn-buy";                    actionBtn.innerText = `${pack.lbl_purchase} (${configRarity.cost})`;                    actionBtn.onclick = () => {                        if (profileState.coins >= configRarity.cost) {                            profileState.coins -= configRarity.cost;                            profileState.ownedSkins.push(skin.id);                            writeProfileToStorage();                            renderTargetPanelData(panelId);                            showSystemDialog("Success", `Unlocked ${skin.id.replace("_"," ")} skin.`);                        } else {                            showSystemDialog("Failed", "Insufficient coin balance.");                        }                    };                } else {                    actionBtn.className = isEquipped ? "btn-equip active-equipped" : "btn-equip";                    actionBtn.innerText = isEquipped ? pack.lbl_equipped : pack.lbl_equip;                    actionBtn.onclick = () => {                        profileState.equippedSkin = skin.id;                        writeProfileToStorage();                        renderTargetPanelData(panelId);                        drawMiniAvatar();                    };                }                card.appendChild(actionBtn);                container.appendChild(card);                // Run contextual asynchronous skin draws for items inside structural menus                setTimeout(() => {                    const sCtx = previewCanvas.getContext("2d");                    if (sCtx) renderVectorSkinCircle(sCtx, 35, 35, 25, skin, 0);                }, 10);            });            if (container.children.length === 0) {                const emptyMsg = document.createElement("p");                emptyMsg.innerText = "All items acquired.";                emptyMsg.style.color = "var(--text-muted)";                zone.appendChild(emptyMsg);            } else {                zone.appendChild(container);            }        }        else if (panelId === "panel-wheel") {            title.innerText = pack.nav_wheel;            const wrap = document.createElement("div");            wrap.className = "wheel-container-frame";            const viewFrame = document.createElement("div");            viewFrame.className = "wheel-view-wrapper";            const ticker = document.createElement("div");            ticker.className = "wheel-ticker-arrow";            const wheelCanvas = document.createElement("canvas");            wheelCanvas.id = "lucky-wheel-canvas";            wheelCanvas.width = 300;            wheelCanvas.height = 300;            viewFrame.appendChild(ticker);            viewFrame.appendChild(wheelCanvas);            wrap.appendChild(viewFrame);            const spinBtn = document.createElement("button");            spinBtn.className = "btn-primary";            spinBtn.style.width = "100%";            spinBtn.innerText = pack.lbl_wheel_spin;                        const costLabel = document.createElement("p");            costLabel.className = "text-muted";            costLabel.innerText = pack.lbl_wheel_cost;            costLabel.style.fontSize = "0.85rem";                        wrap.appendChild(spinBtn);            wrap.appendChild(costLabel);            // History elements view injection logic            const historyTitle = document.createElement("h4");            historyTitle.innerText = "Wheel Spin History";            historyTitle.style.marginTop = "20px";            wrap.appendChild(historyTitle);            const historyBox = document.createElement("ul");            historyBox.style.listStyle = "none";            historyBox.style.width = "100%";            profileState.wheelHistory.slice(-4).reverse().forEach(h => {                const li = document.createElement("li");                li.innerText = h;                li.style.fontSize = "0.85rem";                li.style.color = "var(--text-muted)";                li.style.padding = "4px 0";                historyBox.appendChild(li);            });            wrap.appendChild(historyBox);            zone.appendChild(wrap);            const wCtx = wheelCanvas.getContext("2d");            let wheelRotation = 0;            const segments = [                { type: "coins", value: 10, label: "10 Coins", color: "#1a1a2e" },                { type: "skin", value: "neon", label: "Neon Skin", color: "#16213e" },                { type: "coins", value: 100, label: "100 Coins", color: "#0f3460" },                { type: "skin", value: "galaxy", label: "Galaxy Skin", color: "#1a1a2e" },                { type: "coins", value: 25, label: "25 Coins", color: "#16213e" },                { type: "skin", value: "topo_exclusive", label: "Exclusive", color: "#ef233c" }            ];            function drawWheel(angle) {                wCtx.clearRect(0,0,300,300);                const arcSize = (Math.PI * 2) / segments.length;                wCtx.save();                wCtx.translate(150, 150);                wCtx.rotate(angle);                for(let i=0; i<segments.length; i++) {                    wCtx.beginPath();                    wCtx.moveTo(0,0);                    wCtx.arc(0, 0, 140, i * arcSize, (i+1) * arcSize);                    wCtx.fillStyle = segments[i].color;                    wCtx.fill();                    wCtx.strokeStyle = "rgba(255,255,255,0.1)";                    wCtx.stroke();                    wCtx.save();                    wCtx.rotate(i * arcSize + arcSize/2);                    wCtx.fillStyle = "#ffffff";                    wCtx.font = "bold 11px var(--font-stack)";                    wCtx.textAlign = "right";                    wCtx.fillText(segments[i].label, 130, 4);                    wCtx.restore();                }                wCtx.restore();            }            drawWheel(wheelRotation);            spinBtn.onclick = () => {                if (profileState.coins < 50) {                    showSystemDialog("Error", "Insufficient coin balance.");                    return;                }                profileState.coins -= 50;                spinBtn.disabled = true;                let velocity = 0.4 + Math.random() * 0.3;                function animateSpin() {                    wheelRotation += velocity;                    velocity *= 0.985;                    drawWheel(wheelRotation);                    if (velocity > 0.002) {                        requestAnimationFrame(animateSpin);                    } else {                        // Calculate final index pointed at top position (-PI/2 offset)                        const totalAngle = (wheelRotation % (Math.PI * 2));                        const normalized = (Math.PI * 2.5 - totalAngle) % (Math.PI * 2);                        const idx = Math.floor((normalized / (Math.PI * 2)) * segments.length);                        const win = segments[idx];                        if (win.type === "coins") {                            profileState.coins += win.value;                            profileState.wheelHistory.push(`Won ${win.value} Coins`);                        } else {                            if (!profileState.ownedSkins.includes(win.value)) {                                profileState.ownedSkins.push(win.value);                            }                            profileState.wheelHistory.push(`Won Skin: ${win.value}`);                        }                        writeProfileToStorage();                        renderTargetPanelData("panel-wheel");                        showSystemDialog("Wheel Reward", `Congratulations! You received: ${win.label}`);                    }                }                animateSpin();            };        }        else if (panelId === "panel-leaderboard") {            title.innerText = pack.nav_leaderboard;            const container = document.createElement("div");            container.style.display = "flex";            container.style.flexDirection = "column";            container.style.gap = "10px";            const metrics = [                { label: "Highest Global Score", val: profileState.bestScore },                { label: "Maximum Mass Achieved", val: Math.floor(profileState.bestSize) },                { label: "Highest Player Level", val: profileState.level }            ];            metrics.forEach(m => {                const row = document.createElement("div");                row.style.background = "rgba(255,255,255,0.03)";                row.style.padding = "15px";                row.style.borderRadius = "8px";                row.style.display = "flex";                row.style.justifyContent = "space-between";                row.innerHTML = `<span>${m.label}</span><strong>${m.val}</strong>`;                container.appendChild(row);            });            zone.appendChild(container);        }        else if (panelId === "panel-profile") {            title.innerText = pack.nav_profile;                        // Build structures for custom reward collections            const rewCard = document.createElement("div");            rewCard.className = "shop-item-card";            rewCard.style.width = "100%";            rewCard.style.marginBottom = "20px";            const claimBtn = document.createElement("button");            claimBtn.className = "btn-primary";            claimBtn.style.width = "100%";            claimBtn.innerText = pack.lbl_claim_daily;            const countdown = document.createElement("p");            countdown.style.fontSize = "0.85rem";            countdown.style.color = "var(--text-muted)";            countdown.style.marginTop = "6px";            rewCard.appendChild(claimBtn);            rewCard.appendChild(countdown);            zone.appendChild(rewCard);            function updateDailyTimers() {                const now = Date.now();                const currentDayMidnight = new Date().setHours(24,0,0,0);                const distance = currentDayMidnight - now;                                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));                const seconds = Math.floor((distance % (1000 * 60)) / 1000);                countdown.innerText = `${pack.lbl_next_reward} ${hours}h ${minutes}m ${seconds}s`;                // If last claim timestamp was prior to current calendar day start sequence                const startOfToday = new Date().setHours(0,0,0,0);                if (profileState.lastDailyClaimTimestamp < startOfToday) {                    claimBtn.disabled = false;                    claimBtn.innerText = pack.lbl_claim_daily;                } else {                    claimBtn.disabled = true;                    claimBtn.innerText = "Claimed Today";                }            }            updateDailyTimers();            const tInterval = setInterval(() => {                if (!document.getElementById("sub-panel-container").classList.contains("hidden")) {                    updateDailyTimers();                } else {                    clearInterval(tInterval);                }            }, 1000);            claimBtn.onclick = () => {                profileState.coins += 25;                profileState.lastDailyClaimTimestamp = Date.now();                writeProfileToStorage();                updateDailyTimers();                showSystemDialog("Daily Reward", "Claimed 25 free coins!");            };            const statsContainer = document.createElement("div");            statsContainer.style.display = "flex";            statsContainer.style.flexDirection = "column";            statsContainer.style.gap = "8px";            const data = [                { key: "Username", val: profileState.username },                { key: "Current Experience", val: `${profileState.xp} / ${profileState.level * 150} XP` },                { key: "Total Matches Played", val: profileState.gamesPlayed },                { key: "Total Skins Collected", val: profileState.ownedSkins.length }            ];            data.forEach(d => {                const div = document.createElement("div");                div.style.background = "rgba(0,0,0,0.2)";                div.style.padding = "10px 15px";                div.style.borderRadius = "6px";                div.style.display = "flex";                div.style.justifyContent = "space-between";                div.innerHTML = `<span style="color:var(--text-muted)">${d.key}</span><span>${d.val}</span>`;                statsContainer.appendChild(div);            });            zone.appendChild(statsContainer);        }        else if (panelId === "panel-settings") {            title.innerText = pack.nav_settings;            const container = document.createElement("div");            container.style.display = "flex";            container.style.flexDirection = "column";            container.style.gap = "20px";            // Language Selector Box            const langWrapper = document.createElement("div");            langWrapper.innerHTML = `<label style="display:block;margin-bottom:6px;font-size:0.9rem">Language Selector</label>`;            const sel = document.createElement("select");            sel.style.width = "100%";            sel.style.background = "#1a1f38";            sel.style.color = "white";            sel.style.padding = "10px";            sel.style.border = "1px solid var(--border-crystal)";            sel.style.borderRadius = "6px";            Object.keys(LOCALIZATION_MATRIX).forEach(k => {                const opt = document.createElement("option");                opt.value = k;                opt.innerText = k.toUpperCase();                if (profileState.settings.language === k) opt.selected = true;                sel.appendChild(opt);            });            sel.onchange = (e) => {                localizeDomTree(e.target.value);                writeProfileToStorage();                renderTargetPanelData("panel-settings");            };            langWrapper.appendChild(sel);            container.appendChild(langWrapper);            // Progress Reset Operation Trigger button            const resetBtn = document.createElement("button");            resetBtn.className = "btn-secondary";            resetBtn.style.border = "1px solid #ff3344";            resetBtn.style.color = "#ff3344";            resetBtn.style.marginTop = "30px";            resetBtn.innerText = "RESET ALL PROGRESS";            resetBtn.onclick = () => {                if (confirm("Are you absolutely sure? All data will be lost forever.")) {                    localStorage.removeItem("TOPO_GAME_STATE_DATA");                    window.location.reload();                }            };            container.appendChild(resetBtn);            zone.appendChild(container);        }    }    function drawMiniAvatar() {        const aCanvas = document.getElementById("mini-avatar-canvas");        const aCtx = aCanvas.getContext("2d");        const activeSkin = SKIN_REGISTRY.find(s => s.id === profileState.equippedSkin) || SKIN_REGISTRY[0];        aCtx.clearRect(0,0,50,50);        renderVectorSkinCircle(aCtx, 25, 25, 20, activeSkin, 0);    }    // =========================================================================    // 6. MULTI-VECTOR COMPLEX MATHEMATICAL DRAW LAYER SHADERS    // =========================================================================    function renderVectorSkinCircle(context, x, y, size, skin, frameTick) {        context.save();        context.beginPath();        switch (skin.renderType) {            case "plasma":                let gradPlasma = context.createRadialGradient(x, y, 0, x, y, size);                gradPlasma.addColorStop(0, skin.secondary);                gradPlasma.addColorStop(1, skin.primary);                context.fillStyle = gradPlasma;                context.arc(x, y, size, 0, Math.PI * 2);                context.fill();                break;            case "frost":                context.arc(x, y, size, 0, Math.PI * 2);                context.fillStyle = skin.primary;                context.fill();                context.strokeStyle = skin.secondary;                context.lineWidth = 3;                context.stroke();                // Draw star burst points interior                for (let i = 0; i < 4; i++) {                    let ang = (i * Math.PI / 2) + (frameTick * 0.01);                    context.beginPath();                    context.moveTo(x, y);                    context.lineTo(x + Math.cos(ang) * (size - 4), y + Math.sin(ang) * (size - 4));                    context.strokeStyle = "rgba(255,255,255,0.6)";                    context.lineWidth = 1.5;                    context.stroke();                }                break;            case "abyss":                context.arc(x, y, size, 0, Math.PI * 2);                context.fillStyle = skin.primary;                context.fill();                // Draw expanding core energy ring rings                let pulseR = (frameTick % 40) / 40 * size;                context.beginPath();                context.arc(x, y, pulseR, 0, Math.PI * 2);                context.strokeStyle = skin.secondary;                context.lineWidth = 2;                context.stroke();                break;            case "pulse":                let pulseSize = size + Math.sin(frameTick * 0.1) * 2;                context.arc(x, y, Math.max(2, pulseSize), 0, Math.PI * 2);                context.fillStyle = skin.primary;                context.fill();                context.shadowColor = skin.primary;                context.shadowBlur = 15;                break;            case "nebula":                let gradNeb = context.createLinearGradient(x - size, y - size, x + size, y + size);                gradNeb.addColorStop(0, skin.primary);                gradNeb.addColorStop(0.5, skin.secondary);                gradNeb.addColorStop(1, "#000000");                context.arc(x, y, size, 0, Math.PI * 2);                context.fillStyle = gradNeb;                context.fill();                break;            case "prism":                context.arc(x, y, size, 0, Math.PI * 2);                context.fillStyle = skin.primary;                context.fill();                for (let i = 0; i < 3; i++) {                    let rot = (frameTick * 0.02) + (i * Math.PI / 3);                    context.beginPath();                    context.arc(x + Math.cos(rot) * (size / 2), y + Math.sin(rot) * (size / 2), size / 4, 0, Math.PI * 2);                    context.fillStyle = "rgba(255,255,255,0.25)";                    context.fill();                }                break;            case "metallic":                let gradMet = context.createLinearGradient(x - size, y, x + size, y);                gradMet.addColorStop(0, "#442200");                gradMet.addColorStop(0.3, skin.primary);                gradMet.addColorStop(0.5, "#ffffff");                gradMet.addColorStop(0.7, skin.primary);                gradMet.addColorStop(1, skin.secondary);                context.arc(x, y, size, 0, Math.PI * 2);                context.fillStyle = gradMet;                context.fill();                break;            case "scales":                context.arc(x, y, size, 0, Math.PI * 2);                context.fillStyle = skin.primary;                context.fill();                context.lineWidth = 2;                context.strokeStyle = skin.secondary;                // Simple inner cell concentric scale rendering matrix loops                for (let r = size - 4; r > 0; r -= 6) {                    context.beginPath();                    context.arc(x, y, r, 0, Math.PI * 2);                    context.stroke();                }                break;            case "rune":                context.arc(x, y, size, 0, Math.PI * 2);                context.fillStyle = skin.secondary;                context.fill();                context.strokeStyle = skin.primary;                context.lineWidth = 2;                context.stroke();                // Draw runic geometric alignment crosshairs inside inner circles                context.beginPath();                context.rect(x - size/3, y - size/3, (size/3)*2, (size/3)*2);                context.stroke();                break;            case "matrix":                context.arc(x, y, size, 0, Math.PI * 2);                context.fillStyle = "#000000";                context.fill();                context.strokeStyle = skin.primary;                context.lineWidth = 2;                context.stroke();                // High-contrast neon interface gridlines simulation inside circles                context.beginPath();                context.moveTo(x - size, y); context.lineTo(x + size, y);                context.moveTo(x, y - size); context.lineTo(x, y + size);                context.strokeStyle = "rgba(0,255,255,0.4)";                context.stroke();                break;            default:                context.arc(x, y, size, 0, Math.PI * 2);                context.fillStyle = "#ffffff";                context.fill();        }        context.restore();    }    // =========================================================================    // 7. INTERACTIVE MOBILE JOYSTICK CONTROLLERS    // =========================================================================    function setupMobileJoystick() {        const base = document.getElementById("joystick-base");        const stick = document.getElementById("joystick-stick");        let activeTouchId = null;        base.addEventListener("touchstart", (e) => {            if (activeTouchId !== null) return;            const touch = e.changedTouches[0];            activeTouchId = touch.identifier;            processTouchMovement(touch);        });        base.addEventListener("touchmove", (e) => {            if (activeTouchId === null) return;            for (let i = 0; i < e.changedTouches.length; i++) {                if (e.changedTouches[i].identifier === activeTouchId) {                    processTouchMovement(e.changedTouches[i]);                }            }        });        const resetStick = (e) => {            if (activeTouchId === null) return;            for (let i = 0; i < e.changedTouches.length; i++) {                if (e.changedTouches[i].identifier === activeTouchId) {                    activeTouchId = null;                    joystickControlVector = { x: 0, y: 0 };                    stick.style.transform = "translate(-50%, -50%)";                }            }        };        base.addEventListener("touchend", resetStick);        base.addEventListener("touchcancel", resetStick);        function processTouchMovement(touch) {            const rect = base.getBoundingClientRect();            const centerX = rect.left + rect.width / 2;            const centerY = rect.top + rect.height / 2;            let dx = touch.clientX - centerX;            let dy = touch.clientY - centerY;            const dist = Math.sqrt(dx*dx + dy*dy);            const maxRadius = rect.width / 2;            if (dist > maxRadius) {                dx = (dx / dist) * maxRadius;                dy = (dy / dist) * maxRadius;            }            stick.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;            joystickControlVector = { x: dx / maxRadius, y: dy / maxRadius };        }    }    // =========================================================================    // 8. HIGH PERFORMANCE GRAPHIC LOOP ENGINE ENGINE LIFE CYCLE    // =========================================================================    function enterActiveGameplayLoop() {        document.getElementById("lobby-screen").classList.remove("active");        document.getElementById("game-screen").classList.add("active");        canvas = document.getElementById("primary-game-canvas");        ctx = canvas.getContext("2d");        handleWindowResizeViewport();        // Reset Session Variables        playerPos = { x: MAP_BOUNDS / 2, y: MAP_BOUNDS / 2 };        playerTargetPos = { x: MAP_BOUNDS / 2, y: MAP_BOUNDS / 2 };        playerSize = 20;        playerTargetSize = 20;        currentScore = 0;        foodEntities = [];        particleEntities = [];        spawnInitialFoodGrid();        window.addEventListener("mousemove", trackInputMouseMovements);        isRunning = true;        animationFrameId = requestAnimationFrame(gameLoopTickEngineLifecycle);    }    function exitActiveGameplayLoop() {        isRunning = false;        cancelAnimationFrame(animationFrameId);        window.removeEventListener("mousemove", trackInputMouseMovements);        // Process level calculations up to end state save        profileState.gamesPlayed++;        const xpGained = Math.floor(currentScore / 2);        profileState.xp += xpGained;                let xpNeeded = profileState.level * 150;        let leveledUp = false;        while (profileState.xp >= xpNeeded) {            profileState.xp -= xpNeeded;            profileState.level++;            profileState.coins += 50; // Level reward bonus coins            xpNeeded = profileState.level * 150;            leveledUp = true;        }        if (currentScore > profileState.bestScore) profileState.bestScore = currentScore;        if (playerSize > profileState.bestSize) profileState.bestSize = playerSize;        writeProfileToStorage();        document.getElementById("game-screen").classList.remove("active");        document.getElementById("lobby-screen").classList.add("active");                let endingSummaryMsg = `You scored ${currentScore} points and gained ${xpGained} XP.`;        if (leveledUp) endingSummaryMsg += `\nLEVEL UP! reached Level ${profileState.level}. (+50 Coins)`;        showSystemDialog("Game Over", endingSummaryMsg);    }    function handleWindowResizeViewport() {        if (!canvas) return;        canvas.width = window.innerWidth;        canvas.height = window.innerHeight;    }    function trackInputMouseMovements(e) {        pointerCoordinates = { x: e.clientX, y: e.clientY };    }    function spawnInitialFoodGrid() {        const totalFoodCount = 350;        const types = Object.keys(FOOD_CONFIG);        for (let i = 0; i < totalFoodCount; i++) {            let selectedType = "common";            let rng = Math.random();            let runningSum = 0;            for (let t of types) {                runningSum += FOOD_CONFIG[t].chance;                if (rng <= runningSum) {                    selectedType = t;                    break;                }            }            foodEntities.push({                x: Math.random() * MAP_BOUNDS,                y: Math.random() * MAP_BOUNDS,                type: selectedType            });        }    }    function emitExplosionParticles(x, y, color, count) {        for(let i=0; i<count; i++) {            let angle = Math.random() * Math.PI * 2;            let speed = 1 + Math.random() * 4;            particleEntities.push({                x: x, y: y,                vx: Math.cos(angle) * speed,                vy: Math.sin(angle) * speed,                color: color,                life: 1.0,                decay: 0.02 + Math.random() * 0.03            });        }    }    // =========================================================================    // 9. RECURSIVE TICK LIFE SYSTEM & COLLISION MECHANICS    // =========================================================================    let currentFrameTickCounter = 0;    function gameLoopTickEngineLifecycle() {        if (!isRunning) return;        currentFrameTickCounter++;        // Calculate calculated speed variables based on size configurations        // Core mechanic rule: larger size reduces operational velocity slightly        let invertedSpeedFactor = 3.5 - Math.min(2.0, (playerSize / 150));                let moveX = 0;        let moveY = 0;        if (isMobileDevice) {            moveX = joystickControlVector.x * invertedSpeedFactor;            moveY = joystickControlVector.y * invertedSpeedFactor;        } else {            // Check Keyboard overrides first            let activeKeyTriggered = false;            if (activeKeys["w"] || activeKeys["arrowup"]) { moveY = -invertedSpeedFactor; activeKeyTriggered = true; }            if (activeKeys["s"] || activeKeys["arrowdown"]) { moveY = invertedSpeedFactor; activeKeyTriggered = true; }            if (activeKeys["a"] || activeKeys["arrowleft"]) { moveX = -invertedSpeedFactor; activeKeyTriggered = true; }            if (activeKeys["d"] || activeKeys["arrowright"]) { moveX = invertedSpeedFactor; activeKeyTriggered = true; }            if (!activeKeyTriggered && pointerCoordinates.x !== 0) {                // Default to Mouse vectors calculation relative to screen display centroids                const dMouseX = pointerCoordinates.x - (canvas.width / 2);                const dMouseY = pointerCoordinates.y - (canvas.height / 2);                const distMouse = Math.sqrt(dMouseX*dMouseX + dMouseY*dMouseY);                if (distMouse > 10) {                    moveX = (dMouseX / distMouse) * invertedSpeedFactor;                    moveY = (dMouseY / distMouse) * invertedSpeedFactor;                }            }        }        // Apply spatial constraints updates bounding        playerPos.x = Math.max(0, Math.min(MAP_BOUNDS, playerPos.x + moveX));        playerPos.y = Math.max(0, Math.min(MAP_BOUNDS, playerPos.y + moveY));        // Smooth visual interpolations calculations        playerSize += (playerTargetSize - playerSize) * 0.1;        // Perform spatial checks on collisions        for (let i = foodEntities.length - 1; i >= 0; i--) {            let food = foodEntities[i];            let dx = food.x - playerPos.x;            let dy = food.y - playerPos.y;            let sqDist = dx*dx + dy*dy;            let limitRadius = playerSize + FOOD_CONFIG[food.type].radius;            if (sqDist < limitRadius * limitRadius) {                // Feed consumption actions trigger                let conf = FOOD_CONFIG[food.type];                currentScore += conf.value;                playerTargetSize += conf.value * 0.35;                                // Real-time currency drops simulation (chance-based on epic/legendary eats)                if (food.type === "epic") profileState.coins += 1;                if (food.type === "legendary") profileState.coins += 3;                emitExplosionParticles(food.x, food.y, conf.color, conf.value + 3);                // Instantly replace food item elsewhere out of bounds view                foodEntities[i] = {                    x: Math.random() * MAP_BOUNDS,                    y: Math.random() * MAP_BOUNDS,                    type: Object.keys(FOOD_CONFIG)[Math.floor(Math.random() * Object.keys(FOOD_CONFIG).length)]                };            }        }        // Update active particle items arrays loops        for (let i = particleEntities.length - 1; i >= 0; i--) {            let p = particleEntities[i];            p.x += p.vx;            p.y += p.vy;            p.life -= p.decay;            if (p.life <= 0) particleEntities.splice(i, 1);        }        // Check loss state conditions: For an endless Agar style game, map boundary hits or maximum size testing ends run        if (currentFrameTickCounter > 1 && playerSize >= 450) {            exitActiveGameplayLoop();            return;        }        // Execution of internal graphic rendering pass layers        executeCanvasDrawRenderPipeline();        // Update critical HUD monitors elements text fields        document.getElementById("hud-val-score").innerText = currentScore;        document.getElementById("hud-val-size").innerText = Math.floor(playerSize);        document.getElementById("hud-val-level").innerText = profileState.level;        document.getElementById("hud-val-coins").innerText = profileState.coins;        document.getElementById("hud-val-best").innerText = profileState.bestScore;        animationFrameId = requestAnimationFrame(gameLoopTickEngineLifecycle);    }    // =========================================================================    // 10. GRID MATRIX CANVAS GRAPHICS DRAW ENGINE PIPELINE    // =========================================================================    function executeCanvasDrawRenderPipeline() {        ctx.clearRect(0, 0, canvas.width, canvas.height);        // Core Requirement: Camera behavior always visually centered on screen.        // Map and all objects move relative to the player position parameters.        const originCameraX = canvas.width / 2 - playerPos.x;        const originCameraY = canvas.height / 2 - playerPos.y;        // Render Fantasy Grid lines simulation sequence        ctx.save();        ctx.strokeStyle = "rgba(255, 255, 255, 0.018)";        ctx.lineWidth = 1;        const sizeGrid = 50;                // Optimize grid start and end markers to only parse local screen areas fields        let gridStartX = Math.floor((-originCameraX) / sizeGrid) * sizeGrid;        let gridEndX = gridStartX + canvas.width + sizeGrid;        let gridStartY = Math.floor((-originCameraY) / sizeGrid) * sizeGrid;        let gridEndY = gridStartY + canvas.height + sizeGrid;        for (let x = Math.max(0, gridStartX); x <= Math.min(MAP_BOUNDS, gridEndX); x += sizeGrid) {            ctx.beginPath();            ctx.moveTo(x + originCameraX, Math.max(0, gridStartY) + originCameraY);            ctx.lineTo(x + originCameraX, Math.min(MAP_BOUNDS, gridEndY) + originCameraY);            ctx.stroke();        }        for (let y = Math.max(0, gridStartY); y <= Math.min(MAP_BOUNDS, gridEndY); y += sizeGrid) {            ctx.beginPath();            ctx.moveTo(Math.max(0, gridStartX) + originCameraX, y + originCameraY);            ctx.lineTo(Math.min(MAP_BOUNDS, gridEndX) + originCameraX, y + originCameraY);            ctx.stroke();        }        ctx.restore();        // Render Boundaries maps walls        ctx.save();        ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";        ctx.lineWidth = 4;        ctx.shadowColor = "var(--accent-glow)";        ctx.shadowBlur = 10;        ctx.strokeRect(originCameraX, originCameraY, MAP_BOUNDS, MAP_BOUNDS);        ctx.restore();        // Render Food Objects loops        for (let i = 0; i < foodEntities.length; i++) {            let food = foodEntities[i];            let fConfig = FOOD_CONFIG[food.type];            let renderX = food.x + originCameraX;            let renderY = food.y + originCameraY;            // Frustum clipping optimization check loop parameters            if (renderX < -20 || renderX > canvas.width + 20 || renderY < -20 || renderY > canvas.height + 20) continue;            ctx.save();            ctx.beginPath();            ctx.arc(renderX, renderY, fConfig.radius, 0, Math.PI * 2);            ctx.fillStyle = fConfig.color;            ctx.shadowColor = fConfig.color;            ctx.shadowBlur = fConfig.glow;            ctx.fill();            ctx.restore();        }        // Render Particles matrices loops layers        for (let i = 0; i < particleEntities.length; i++) {            let p = particleEntities[i];            ctx.save();            ctx.globalAlpha = p.life;            ctx.beginPath();            ctx.arc(p.x + originCameraX, p.y + originCameraY, 2, 0, Math.PI * 2);            ctx.fillStyle = p.color;            ctx.fill();            ctx.restore();        }        // Render Local Player Centroid icon element explicitly matching design spec overrides        const targetActiveSkin = SKIN_REGISTRY.find(s => s.id === profileState.equippedSkin) || SKIN_REGISTRY[0];        renderVectorSkinCircle(ctx, canvas.width / 2, canvas.height / 2, playerSize, targetActiveSkin, currentFrameTickCounter);        // Render Text Label nameplates above user center targets        ctx.save();        ctx.fillStyle = "#ffffff";        ctx.font = "bold 14px var(--font-stack)";        ctx.textAlign = "center";        ctx.shadowColor = "#000000";        ctx.shadowBlur = 4;        ctx.fillText(profileState.username, canvas.width / 2, canvas.height / 2 - playerSize - 8);        ctx.restore();    }    // Initialize application layer sequencing scripts routines automatically    window.addEventListener("DOMContentLoaded", () => {        loadProfileFromStorage();        initInterfaceListeners();    });})();
+/**
+ * TOPO GAME - Modern Premium Core Engine Architecture
+ * Clean production-grade codebase with modular subsystems wrapped inside an execution lifecycle.
+ */
+
+(function () {
+    'use strict';
+
+    // =========================================================================
+    // 1. DATA DICTIONARIES AND SYSTEMS REPOSITORIES
+    // =========================================================================
+
+    const LOCALIZATION_MATRIX = {
+        en: {
+            nav_shop: "SHOP", nav_skins: "SKINS", nav_wheel: "LUCKY WHEEL", nav_leaderboard: "LEADERBOARD", nav_profile: "PROFILE", nav_settings: "SETTINGS",
+            hud_score: "Score", hud_size: "Size", hud_level: "Level", hud_best: "Best",
+            lbl_wheel_spin: "SPIN WHEEL", lbl_wheel_cost: "Cost: 50 Coins", lbl_claim_daily: "CLAIM DAILY REWARD", lbl_next_reward: "Next Reward in:",
+            lbl_purchase: "Purchase", lbl_equip: "Equip", lbl_equipped: "Equipped", lbl_owned: "Owned"
+        },
+        he: {
+            nav_shop: "×—× ×•×ª", nav_skins: "×¡×§×™× ×™×", nav_wheel: "×’×œ×’×œ ×”×ž×–×œ", nav_leaderboard: "×ž×•×‘×™×œ×™×", nav_profile: "×¤×¨×•×¤×™×œ", nav_settings: "×”×’×“×¨×•×ª",
+            hud_score: "× ×™×§×•×“", hud_size: "×’×•×“×œ", hud_level: "×¨×ž×”", hud_best: "×©×™×",
+            lbl_wheel_spin: "×¡×•×‘×‘ ×’×œ×’×œ", lbl_wheel_cost: "×¢×œ×•×ª: 50 ×ž×˜×‘×¢×•×ª", lbl_claim_daily: "×§×‘×œ ×¤×¨×¡ ×™×•×ž×™", lbl_next_reward: "×”×¤×¨×¡ ×”×‘× ×‘×¢×•×“:",
+            lbl_purchase: "×¨×›×•×©", lbl_equip: "×¦×™×™×“", lbl_equipped: "×ž×¦×•×™×“", lbl_owned: "×‘×‘×¢×œ×•×ª×š"
+        },
+        es: {
+            nav_shop: "TIENDA", nav_skins: "ASPECTOS", nav_wheel: "RUEDA FORTUNA", nav_leaderboard: "L?DERES", nav_profile: "PERFIL", nav_settings: "AJUSTES",
+            hud_score: "Puntos", hud_size: "Tama?o", hud_level: "Nivel", hud_best: "R?cord",
+            lbl_wheel_spin: "GIRAR RUEDA", lbl_wheel_cost: "Costo: 50 Monedas", lbl_claim_daily: "RECOMPENSA DIARIA", lbl_next_reward: "Siguiente en:",
+            lbl_purchase: "Comprar", lbl_equip: "Equipar", lbl_equipped: "Equipado", lbl_owned: "Comprado"
+        },
+        ja: {
+            nav_shop: "????", nav_skins: "???", nav_wheel: "????????", nav_leaderboard: "?????", nav_profile: "??????", nav_settings: "??",
+            hud_score: "???", hud_size: "???", hud_level: "???", hud_best: "???",
+            lbl_wheel_spin: "???????", lbl_wheel_cost: "??: 50 ???", lbl_claim_daily: "?????????", lbl_next_reward: "??????:",
+            lbl_purchase: "????", lbl_equip: "????", lbl_equipped: "???", lbl_owned: "????"
+        },
+        zh: {
+            nav_shop: "??", nav_skins: "??", nav_wheel: "????", nav_leaderboard: "???", nav_profile: "????", nav_settings: "??",
+            hud_score: "??", hud_size: "??", hud_level: "??", hud_best: "???",
+            lbl_wheel_spin: "????", lbl_wheel_cost: "??: 50 ??", lbl_claim_daily: "??????", lbl_next_reward: "?????:",
+            lbl_purchase: "??", lbl_equip: "??", lbl_equipped: "???", lbl_owned: "???"
+        },
+        ko: {
+            nav_shop: "??", nav_skins: "??", nav_wheel: "??? ??", nav_leaderboard: "???", nav_profile: "???", nav_settings: "??",
+            hud_score: "??", hud_size: "??", hud_level: "??", hud_best: "?? ??",
+            lbl_wheel_spin: "?? ???", lbl_wheel_cost: "??: 50 ??", lbl_claim_daily: "?? ?? ??", lbl_next_reward: "?? ????:",
+            lbl_purchase: "??", lbl_equip: "??", lbl_equipped: "???", lbl_owned: "???"
+        },
+        fr: {
+            nav_shop: "BOUTIQUE", nav_skins: "SKINS", nav_wheel: "ROUE CHANCE", nav_leaderboard: "CLASSEMENT", nav_profile: "PROFIL", nav_settings: "REGLAGES",
+            hud_score: "Score", hud_size: "Taille", hud_level: "Niveau", hud_best: "Meilleur",
+            lbl_wheel_spin: "TOURNER ROUE", lbl_wheel_cost: "Co?t: 50 Pi?ces", lbl_claim_daily: "RECOMPENSE JOUR", lbl_next_reward: "Suivant dans:",
+            lbl_purchase: "Acheter", lbl_equip: "?quiper", lbl_equipped: "?quip?", lbl_owned: "Poss?d?"
+        },
+        de: {
+            nav_shop: "LADEN", nav_skins: "SKINS", nav_wheel: "GL?CKSRAD", nav_leaderboard: "RANGLISTE", nav_profile: "PROFIL", nav_settings: "OPTIONEN",
+            hud_score: "Punkte", hud_size: "Gr??e", hud_level: "Stufe", hud_best: "Rekord",
+            lbl_wheel_spin: "RAD DREHEN", lbl_wheel_cost: "Kosten: 50 M?nzen", lbl_claim_daily: "BONUS CLAIMEN", lbl_next_reward: "N?chster Bonus in:",
+            lbl_purchase: "Kaufen", lbl_equip: "Ausr?sten", lbl_equipped: "Ausger?stet", lbl_owned: "Besessen"
+        },
+        ru: {
+            nav_shop: "???????", nav_skins: "??????", nav_wheel: "??????", nav_leaderboard: "??????", nav_profile: "???????", nav_settings: "?????????",
+            hud_score: "????", hud_size: "??????", hud_level: "???????", hud_best: "??????",
+            lbl_wheel_spin: "???????", lbl_wheel_cost: "????: 50 ?????", lbl_claim_daily: "???????", lbl_next_reward: "?? ???????:",
+            lbl_purchase: "??????", lbl_equip: "??????", lbl_equipped: "???????????", lbl_owned: "???????"
+        },
+        pt: {
+            nav_shop: "LOJA", nav_skins: "VISUAIS", nav_wheel: "RODA DA SORTE", nav_leaderboard: "RANKING", nav_profile: "PERFIL", nav_settings: "AJUSTES",
+            hud_score: "Pontos", hud_size: "Tamanho", hud_level: "N?vel", hud_best: "Recorde",
+            lbl_wheel_spin: "GIRAR RODA", lbl_wheel_cost: "Custo: 50 Moedas", lbl_claim_daily: "RECOMPENSA DI?RIA", lbl_next_reward: "Pr?xima em:",
+            lbl_purchase: "Comprar", lbl_equip: "Equipar", lbl_equipped: "Equipado", lbl_owned: "Adquirido"
+        },
+        it: {
+            nav_shop: "NEGOZIO", nav_skins: "SKIN", nav_wheel: "RUOTA FORTUNA", nav_leaderboard: "CLASSIFICA", nav_profile: "PROFILO", nav_settings: "OPZIONI",
+            hud_score: "Punti", hud_size: "Taglia", hud_level: "Livello", hud_best: "Record",
+            lbl_wheel_spin: "GIRA RUOTA", lbl_wheel_cost: "Costo: 50 Monete", lbl_claim_daily: "PREMIO GIORNALIERO", lbl_next_reward: "Prossimo in:",
+            lbl_purchase: "Acquista", lbl_equip: "Equipaggia", lbl_equipped: "Equipaggiato", lbl_owned: "Posseduto"
+        },
+        tr: {
+            nav_shop: "MA?AZA", nav_skins: "KOST?MLER", nav_wheel: "?ARK", nav_leaderboard: "SIRA", nav_profile: "PROF?L", nav_settings: "AYARLAR",
+            hud_score: "Skor", hud_size: "Boyut", hud_level: "Seviye", hud_best: "En ?yi",
+            lbl_wheel_spin: "?ARKI ?EV?R", lbl_wheel_cost: "Maliyet: 50 Alt?n", lbl_claim_daily: "G?NL?K ?D?L AL", lbl_next_reward: "Kalan S?re:",
+            lbl_purchase: "Sat?n Al", lbl_equip: "Ku?an", lbl_equipped: "Ku?an?ld?", lbl_owned: "Sahipsin"
+        },
+        hi: {
+            nav_shop: "?????", nav_skins: "?????", nav_wheel: "????? ????", nav_leaderboard: "?????????", nav_profile: "????????", nav_settings: "????????",
+            hud_score: "???", hud_size: "????", hud_level: "????", hud_best: "???????????",
+            lbl_wheel_spin: "????? ??????", lbl_wheel_cost: "????: 50 ??????", lbl_claim_daily: "????? ????????", lbl_next_reward: "???? ????????:",
+            lbl_purchase: "??????", lbl_equip: "?????? ????", lbl_equipped: "??????", lbl_owned: "?????????"
+        },
+        ar: {
+            nav_shop: "??????", nav_skins: "???????", nav_wheel: "???? ????", nav_leaderboard: "?????????", nav_profile: "????? ??????", nav_settings: "?????????",
+            hud_score: "??????", hud_size: "?????", hud_level: "???????", hud_best: "???? ?????",
+            lbl_wheel_spin: "??? ??????", lbl_wheel_cost: "???????: 50 ????", lbl_claim_daily: "???????? ???????", lbl_next_reward: "???????? ??????? ????:",
+            lbl_purchase: "????", lbl_equip: "?????", lbl_equipped: "????", lbl_owned: "?????"
+        }
+    };
+
+    const RARITY_VALUES = {
+        common: { name: "Common", cost: 1, color: "#9da3af" },
+        uncommon: { name: "Uncommon", cost: 10, color: "#1eff00" },
+        epic: { name: "Epic", cost: 50, color: "#0070dd" },
+        amazing: { name: "Amazing", cost: 100, color: "#a335ee" },
+        legendary: { name: "Legendary", cost: 500, color: "#ff8000" }
+    };
+
+    const SKIN_REGISTRY = [
+        { id: "fire", rarity: "common", renderType: "plasma", primary: "#ff3300", secondary: "#ffaa00" },
+        { id: "ice", rarity: "common", renderType: "frost", primary: "#00ddff", secondary: "#ffffff" },
+        { id: "shadow", rarity: "uncommon", renderType: "abyss", primary: "#111118", secondary: "#4400aa" },
+        { id: "neon", rarity: "uncommon", renderType: "pulse", primary: "#00ffcc", secondary: "#003322" },
+        { id: "galaxy", rarity: "epic", renderType: "nebula", primary: "#220066", secondary: "#ff00aa" },
+        { id: "crystal", rarity: "epic", renderType: "prism", primary: "#e8c3ff", secondary: "#a335ee" },
+        { id: "gold", rarity: "amazing", renderType: "metallic", primary: "#ffe600", secondary: "#885500" },
+        { id: "dragon", rarity: "amazing", renderType: "scales", primary: "#cc0000", secondary: "#330000" },
+        { id: "ancient", rarity: "legendary", renderType: "rune", primary: "#00ff66", secondary: "#002208" },
+        { id: "topo_exclusive", rarity: "legendary", renderType: "matrix", primary: "#00ffff", secondary: "#ffffff" }
+    ];
+
+    const FOOD_CONFIG = {
+        common: { value: 1, chance: 0.65, radius: 4, color: "#00ff88", glow: 4 },
+        uncommon: { value: 3, chance: 0.20, radius: 6, color: "#00aaff", glow: 8 },
+        rare: { value: 5, chance: 0.10, radius: 8, color: "#aa33ff", glow: 12 },
+        epic: { value: 10, chance: 0.04, radius: 10, color: "#ff00aa", glow: 16 },
+        legendary: { value: 20, chance: 0.01, radius: 13, color: "#ffaa00", glow: 22 }
+    };
+
+    // =========================================================================
+    // 2. CORE STORAGE ENGINE STATE
+    // =========================================================================
+
+    let profileState = {
+        username: "Player",
+        coins: 10,
+        level: 1,
+        xp: 0,
+        bestScore: 0,
+        bestSize: 20,
+        gamesPlayed: 0,
+        ownedSkins: ["fire"],
+        equippedSkin: "fire",
+        wheelHistory: [],
+        lastDailyClaimTimestamp: 0,
+        settings: {
+            soundVolume: 70,
+            musicVolume: 50,
+            graphicsQuality: "high",
+            language: "en"
+        }
+    };
+
+    function loadProfileFromStorage() {
+        const payload = localStorage.getItem("TOPO_GAME_STATE_DATA");
+        if (payload) {
+            try {
+                const parsed = JSON.parse(payload);
+                profileState = { ...profileState, ...parsed };
+            } catch (e) {
+                console.error("State recovery corrupted, rolling defaults.", e);
+            }
+        }
+    }
+
+    function writeProfileToStorage() {
+        localStorage.setItem("TOPO_GAME_STATE_DATA", JSON.stringify(profileState));
+        syncUiIndicators();
+    }
+
+    // =========================================================================
+    // 3. ENGINE STATE VARIABLES & ENTITIES
+    // =========================================================================
+
+    const MAP_BOUNDS = 2500;
+    let canvas, ctx;
+    let isRunning = false;
+    let animationFrameId = null;
+
+    // View Engine Virtual Positioning Matrix
+    let playerPos = { x: 1250, y: 1250 };
+    let playerTargetPos = { x: 1250, y: 1250 };
+    let playerSize = 20;
+    let playerTargetSize = 20;
+    let currentScore = 0;
+
+    let foodEntities = [];
+    let particleEntities = [];
+
+    // Controller Input Tracking Systems
+    let pointerCoordinates = { x: 0, y: 0 };
+    let activeKeys = {};
+    let isMobileDevice = false;
+    let joystickControlVector = { x: 0, y: 0 };
+
+    // =========================================================================
+    // 4. UI SECTIONS ROUTER AND INTERFACE INJECTION
+    // =========================================================================
+
+    function initInterfaceListeners() {
+        isMobileDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        if (isMobileDevice) {
+            document.getElementById("virtual-joystick-zone").style.display = "block";
+            setupMobileJoystick();
+        }
+
+        // Interface Views Router Wireframes
+        document.querySelectorAll(".nav-card").forEach(card => {
+            card.addEventListener("click", () => {
+                const targetPanelId = card.getAttribute("data-target");
+                renderTargetPanelData(targetPanelId);
+            });
+        });
+
+        document.getElementById("btn-close-panel").addEventListener("click", () => {
+            document.getElementById("sub-panel-container").classList.add("hidden");
+        });
+
+        document.getElementById("btn-play-game").addEventListener("click", () => {
+            const rawName = document.getElementById("input-username").value.trim();
+            profileState.username = rawName || "Player";
+            writeProfileToStorage();
+            enterActiveGameplayLoop();
+        });
+
+        document.getElementById("btn-modal-dismiss").addEventListener("click", () => {
+            document.getElementById("global-modal-overlay").classList.add("hidden");
+        });
+
+        window.addEventListener("keydown", (e) => { activeKeys[e.key.toLowerCase()] = true; });
+        window.addEventListener("keyup", (e) => { activeKeys[e.key.toLowerCase()] = false; });
+        window.addEventListener("resize", handleWindowResizeViewport);
+
+        localizeDomTree(profileState.settings.language);
+        syncUiIndicators();
+        drawMiniAvatar();
+    }
+
+    function syncUiIndicators() {
+        document.getElementById("lbl-global-coins").innerText = profileState.coins;
+        document.getElementById("lbl-summary-name").innerText = profileState.username;
+        document.getElementById("lbl-summary-level").innerText = "Lv. " + profileState.level;
+        
+        const xpNeeded = profileState.level * 150;
+        const pct = Math.min(100, (profileState.xp / xpNeeded) * 100);
+        document.getElementById("summary-xp-fill").style.width = pct + "%";
+    }
+
+    function localizeDomTree(langCode) {
+        profileState.settings.language = langCode;
+        const pack = LOCALIZATION_MATRIX[langCode] || LOCALIZATION_MATRIX["en"];
+        document.querySelectorAll("[data-localize]").forEach(el => {
+            const key = el.getAttribute("data-localize");
+            if (pack[key]) el.innerText = pack[key];
+        });
+        
+        const playButtonLabels = { en: "PLAY", he: "×ž×©×—×§", es: "JUGAR", ja: "???", zh: "????", ko: "???", fr: "JOUER", de: "SPIELEN", ru: "??????", pt: "JOGAR", it: "GIOCA", tr: "OYNAT", hi: "?????", ar: "????" };
+        document.getElementById("lbl-btn-play").innerText = playButtonLabels[langCode] || "PLAY";
+    }
+
+    function showSystemDialog(title, description) {
+        document.getElementById("modal-title").innerText = title;
+        document.getElementById("modal-body").innerText = description;
+        document.getElementById("global-modal-overlay").classList.remove("hidden");
+    }
+
+    // =========================================================================
+    // 5. RENDERING INJECTIONS FOR SUB-PANELS
+    // =========================================================================
+
+    function renderTargetPanelData(panelId) {
+        const zone = document.getElementById("panel-content-injection-zone");
+        const title = document.getElementById("panel-title-text");
+        const lang = profileState.settings.language;
+        const pack = LOCALIZATION_MATRIX[lang] || LOCALIZATION_MATRIX["en"];
+
+        document.getElementById("sub-panel-container").classList.remove("hidden");
+        zone.innerHTML = "";
+
+        if (panelId === "panel-shop" || panelId === "panel-skins") {
+            title.innerText = panelId === "panel-shop" ? pack.nav_shop : pack.nav_skins;
+            const container = document.createElement("div");
+            container.className = "grid-2col";
+
+            SKIN_REGISTRY.forEach(skin => {
+                const isOwned = profileState.ownedSkins.includes(skin.id);
+                const isEquipped = profileState.equippedSkin === skin.id;
+                const configRarity = RARITY_VALUES[skin.rarity];
+
+                // If rendering inside shop, skip items already owned
+                if (panelId === "panel-shop" && isOwned) return;
+
+                const card = document.createElement("div");
+                card.className = "shop-item-card";
+
+                const previewCanvas = document.createElement("canvas");
+                previewCanvas.className = "skin-preview-render-box";
+                previewCanvas.width = 70;
+                previewCanvas.height = 70;
+                
+                card.appendChild(previewCanvas);
+
+                const nameTag = document.createElement("h4");
+                nameTag.innerText = skin.id.replace("_", " ").toUpperCase();
+                card.appendChild(nameTag);
+
+                const rarityLabel = document.createElement("span");
+                rarityLabel.className = "rarity-tag";
+                rarityLabel.style.color = configRarity.color;
+                rarityLabel.innerText = configRarity.name;
+                card.appendChild(rarityLabel);
+
+                const actionBtn = document.createElement("button");
+                if (panelId === "panel-shop") {
+                    actionBtn.className = "btn-buy";
+                    actionBtn.innerText = `${pack.lbl_purchase} (${configRarity.cost})`;
+                    actionBtn.onclick = () => {
+                        if (profileState.coins >= configRarity.cost) {
+                            profileState.coins -= configRarity.cost;
+                            profileState.ownedSkins.push(skin.id);
+                            writeProfileToStorage();
+                            renderTargetPanelData(panelId);
+                            showSystemDialog("Success", `Unlocked ${skin.id.replace("_"," ")} skin.`);
+                        } else {
+                            showSystemDialog("Failed", "Insufficient coin balance.");
+                        }
+                    };
+                } else {
+                    actionBtn.className = isEquipped ? "btn-equip active-equipped" : "btn-equip";
+                    actionBtn.innerText = isEquipped ? pack.lbl_equipped : pack.lbl_equip;
+                    actionBtn.onclick = () => {
+                        profileState.equippedSkin = skin.id;
+                        writeProfileToStorage();
+                        renderTargetPanelData(panelId);
+                        drawMiniAvatar();
+                    };
+                }
+                card.appendChild(actionBtn);
+                container.appendChild(card);
+
+                // Run contextual asynchronous skin draws for items inside structural menus
+                setTimeout(() => {
+                    const sCtx = previewCanvas.getContext("2d");
+                    if (sCtx) renderVectorSkinCircle(sCtx, 35, 35, 25, skin, 0);
+                }, 10);
+            });
+
+            if (container.children.length === 0) {
+                const emptyMsg = document.createElement("p");
+                emptyMsg.innerText = "All items acquired.";
+                emptyMsg.style.color = "var(--text-muted)";
+                zone.appendChild(emptyMsg);
+            } else {
+                zone.appendChild(container);
+            }
+        }
+
+        else if (panelId === "panel-wheel") {
+            title.innerText = pack.nav_wheel;
+            const wrap = document.createElement("div");
+            wrap.className = "wheel-container-frame";
+
+            const viewFrame = document.createElement("div");
+            viewFrame.className = "wheel-view-wrapper";
+            const ticker = document.createElement("div");
+            ticker.className = "wheel-ticker-arrow";
+            const wheelCanvas = document.createElement("canvas");
+            wheelCanvas.id = "lucky-wheel-canvas";
+            wheelCanvas.width = 300;
+            wheelCanvas.height = 300;
+
+            viewFrame.appendChild(ticker);
+            viewFrame.appendChild(wheelCanvas);
+            wrap.appendChild(viewFrame);
+
+            const spinBtn = document.createElement("button");
+            spinBtn.className = "btn-primary";
+            spinBtn.style.width = "100%";
+            spinBtn.innerText = pack.lbl_wheel_spin;
+            
+            const costLabel = document.createElement("p");
+            costLabel.className = "text-muted";
+            costLabel.innerText = pack.lbl_wheel_cost;
+            costLabel.style.fontSize = "0.85rem";
+            
+            wrap.appendChild(spinBtn);
+            wrap.appendChild(costLabel);
+
+            // History elements view injection logic
+            const historyTitle = document.createElement("h4");
+            historyTitle.innerText = "Wheel Spin History";
+            historyTitle.style.marginTop = "20px";
+            wrap.appendChild(historyTitle);
+
+            const historyBox = document.createElement("ul");
+            historyBox.style.listStyle = "none";
+            historyBox.style.width = "100%";
+            profileState.wheelHistory.slice(-4).reverse().forEach(h => {
+                const li = document.createElement("li");
+                li.innerText = h;
+                li.style.fontSize = "0.85rem";
+                li.style.color = "var(--text-muted)";
+                li.style.padding = "4px 0";
+                historyBox.appendChild(li);
+            });
+            wrap.appendChild(historyBox);
+
+            zone.appendChild(wrap);
+
+            const wCtx = wheelCanvas.getContext("2d");
+            let wheelRotation = 0;
+            const segments = [
+                { type: "coins", value: 10, label: "10 Coins", color: "#1a1a2e" },
+                { type: "skin", value: "neon", label: "Neon Skin", color: "#16213e" },
+                { type: "coins", value: 100, label: "100 Coins", color: "#0f3460" },
+                { type: "skin", value: "galaxy", label: "Galaxy Skin", color: "#1a1a2e" },
+                { type: "coins", value: 25, label: "25 Coins", color: "#16213e" },
+                { type: "skin", value: "topo_exclusive", label: "Exclusive", color: "#ef233c" }
+            ];
+
+            function drawWheel(angle) {
+                wCtx.clearRect(0,0,300,300);
+                const arcSize = (Math.PI * 2) / segments.length;
+                wCtx.save();
+                wCtx.translate(150, 150);
+                wCtx.rotate(angle);
+                for(let i=0; i<segments.length; i++) {
+                    wCtx.beginPath();
+                    wCtx.moveTo(0,0);
+                    wCtx.arc(0, 0, 140, i * arcSize, (i+1) * arcSize);
+                    wCtx.fillStyle = segments[i].color;
+                    wCtx.fill();
+                    wCtx.strokeStyle = "rgba(255,255,255,0.1)";
+                    wCtx.stroke();
+
+                    wCtx.save();
+                    wCtx.rotate(i * arcSize + arcSize/2);
+                    wCtx.fillStyle = "#ffffff";
+                    wCtx.font = "bold 11px var(--font-stack)";
+                    wCtx.textAlign = "right";
+                    wCtx.fillText(segments[i].label, 130, 4);
+                    wCtx.restore();
+                }
+                wCtx.restore();
+            }
+            drawWheel(wheelRotation);
+
+            spinBtn.onclick = () => {
+                if (profileState.coins < 50) {
+                    showSystemDialog("Error", "Insufficient coin balance.");
+                    return;
+                }
+                profileState.coins -= 50;
+                spinBtn.disabled = true;
+
+                let velocity = 0.4 + Math.random() * 0.3;
+                function animateSpin() {
+                    wheelRotation += velocity;
+                    velocity *= 0.985;
+                    drawWheel(wheelRotation);
+                    if (velocity > 0.002) {
+                        requestAnimationFrame(animateSpin);
+                    } else {
+                        // Calculate final index pointed at top position (-PI/2 offset)
+                        const totalAngle = (wheelRotation % (Math.PI * 2));
+                        const normalized = (Math.PI * 2.5 - totalAngle) % (Math.PI * 2);
+                        const idx = Math.floor((normalized / (Math.PI * 2)) * segments.length);
+                        const win = segments[idx];
+
+                        if (win.type === "coins") {
+                            profileState.coins += win.value;
+                            profileState.wheelHistory.push(`Won ${win.value} Coins`);
+                        } else {
+                            if (!profileState.ownedSkins.includes(win.value)) {
+                                profileState.ownedSkins.push(win.value);
+                            }
+                            profileState.wheelHistory.push(`Won Skin: ${win.value}`);
+                        }
+                        writeProfileToStorage();
+                        renderTargetPanelData("panel-wheel");
+                        showSystemDialog("Wheel Reward", `Congratulations! You received: ${win.label}`);
+                    }
+                }
+                animateSpin();
+            };
+        }
+
+        else if (panelId === "panel-leaderboard") {
+            title.innerText = pack.nav_leaderboard;
+            const container = document.createElement("div");
+            container.style.display = "flex";
+            container.style.flexDirection = "column";
+            container.style.gap = "10px";
+
+            const metrics = [
+                { label: "Highest Global Score", val: profileState.bestScore },
+                { label: "Maximum Mass Achieved", val: Math.floor(profileState.bestSize) },
+                { label: "Highest Player Level", val: profileState.level }
+            ];
+
+            metrics.forEach(m => {
+                const row = document.createElement("div");
+                row.style.background = "rgba(255,255,255,0.03)";
+                row.style.padding = "15px";
+                row.style.borderRadius = "8px";
+                row.style.display = "flex";
+                row.style.justifyContent = "space-between";
+                row.innerHTML = `<span>${m.label}</span><strong>${m.val}</strong>`;
+                container.appendChild(row);
+            });
+            zone.appendChild(container);
+        }
+
+        else if (panelId === "panel-profile") {
+            title.innerText = pack.nav_profile;
+            
+            // Build structures for custom reward collections
+            const rewCard = document.createElement("div");
+            rewCard.className = "shop-item-card";
+            rewCard.style.width = "100%";
+            rewCard.style.marginBottom = "20px";
+
+            const claimBtn = document.createElement("button");
+            claimBtn.className = "btn-primary";
+            claimBtn.style.width = "100%";
+            claimBtn.innerText = pack.lbl_claim_daily;
+
+            const countdown = document.createElement("p");
+            countdown.style.fontSize = "0.85rem";
+            countdown.style.color = "var(--text-muted)";
+            countdown.style.marginTop = "6px";
+
+            rewCard.appendChild(claimBtn);
+            rewCard.appendChild(countdown);
+            zone.appendChild(rewCard);
+
+            function updateDailyTimers() {
+                const now = Date.now();
+                const currentDayMidnight = new Date().setHours(24,0,0,0);
+                const distance = currentDayMidnight - now;
+                
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                countdown.innerText = `${pack.lbl_next_reward} ${hours}h ${minutes}m ${seconds}s`;
+
+                // If last claim timestamp was prior to current calendar day start sequence
+                const startOfToday = new Date().setHours(0,0,0,0);
+                if (profileState.lastDailyClaimTimestamp < startOfToday) {
+                    claimBtn.disabled = false;
+                    claimBtn.innerText = pack.lbl_claim_daily;
+                } else {
+                    claimBtn.disabled = true;
+                    claimBtn.innerText = "Claimed Today";
+                }
+            }
+            updateDailyTimers();
+            const tInterval = setInterval(() => {
+                if (!document.getElementById("sub-panel-container").classList.contains("hidden")) {
+                    updateDailyTimers();
+                } else {
+                    clearInterval(tInterval);
+                }
+            }, 1000);
+
+            claimBtn.onclick = () => {
+                profileState.coins += 25;
+                profileState.lastDailyClaimTimestamp = Date.now();
+                writeProfileToStorage();
+                updateDailyTimers();
+                showSystemDialog("Daily Reward", "Claimed 25 free coins!");
+            };
+
+            const statsContainer = document.createElement("div");
+            statsContainer.style.display = "flex";
+            statsContainer.style.flexDirection = "column";
+            statsContainer.style.gap = "8px";
+
+            const data = [
+                { key: "Username", val: profileState.username },
+                { key: "Current Experience", val: `${profileState.xp} / ${profileState.level * 150} XP` },
+                { key: "Total Matches Played", val: profileState.gamesPlayed },
+                { key: "Total Skins Collected", val: profileState.ownedSkins.length }
+            ];
+
+            data.forEach(d => {
+                const div = document.createElement("div");
+                div.style.background = "rgba(0,0,0,0.2)";
+                div.style.padding = "10px 15px";
+                div.style.borderRadius = "6px";
+                div.style.display = "flex";
+                div.style.justifyContent = "space-between";
+                div.innerHTML = `<span style="color:var(--text-muted)">${d.key}</span><span>${d.val}</span>`;
+                statsContainer.appendChild(div);
+            });
+            zone.appendChild(statsContainer);
+        }
+
+        else if (panelId === "panel-settings") {
+            title.innerText = pack.nav_settings;
+            const container = document.createElement("div");
+            container.style.display = "flex";
+            container.style.flexDirection = "column";
+            container.style.gap = "20px";
+
+            // Language Selector Box
+            const langWrapper = document.createElement("div");
+            langWrapper.innerHTML = `<label style="display:block;margin-bottom:6px;font-size:0.9rem">Language Selector</label>`;
+            const sel = document.createElement("select");
+            sel.style.width = "100%";
+            sel.style.background = "#1a1f38";
+            sel.style.color = "white";
+            sel.style.padding = "10px";
+            sel.style.border = "1px solid var(--border-crystal)";
+            sel.style.borderRadius = "6px";
+
+            Object.keys(LOCALIZATION_MATRIX).forEach(k => {
+                const opt = document.createElement("option");
+                opt.value = k;
+                opt.innerText = k.toUpperCase();
+                if (profileState.settings.language === k) opt.selected = true;
+                sel.appendChild(opt);
+            });
+            sel.onchange = (e) => {
+                localizeDomTree(e.target.value);
+                writeProfileToStorage();
+                renderTargetPanelData("panel-settings");
+            };
+            langWrapper.appendChild(sel);
+            container.appendChild(langWrapper);
+
+            // Progress Reset Operation Trigger button
+            const resetBtn = document.createElement("button");
+            resetBtn.className = "btn-secondary";
+            resetBtn.style.border = "1px solid #ff3344";
+            resetBtn.style.color = "#ff3344";
+            resetBtn.style.marginTop = "30px";
+            resetBtn.innerText = "RESET ALL PROGRESS";
+            resetBtn.onclick = () => {
+                if (confirm("Are you absolutely sure? All data will be lost forever.")) {
+                    localStorage.removeItem("TOPO_GAME_STATE_DATA");
+                    window.location.reload();
+                }
+            };
+            container.appendChild(resetBtn);
+
+            zone.appendChild(container);
+        }
+    }
+
+    function drawMiniAvatar() {
+        const aCanvas = document.getElementById("mini-avatar-canvas");
+        const aCtx = aCanvas.getContext("2d");
+        const activeSkin = SKIN_REGISTRY.find(s => s.id === profileState.equippedSkin) || SKIN_REGISTRY[0];
+        aCtx.clearRect(0,0,50,50);
+        renderVectorSkinCircle(aCtx, 25, 25, 20, activeSkin, 0);
+    }
+
+    // =========================================================================
+    // 6. MULTI-VECTOR COMPLEX MATHEMATICAL DRAW LAYER SHADERS
+    // =========================================================================
+
+    function renderVectorSkinCircle(context, x, y, size, skin, frameTick) {
+        context.save();
+        context.beginPath();
+
+        switch (skin.renderType) {
+            case "plasma":
+                let gradPlasma = context.createRadialGradient(x, y, 0, x, y, size);
+                gradPlasma.addColorStop(0, skin.secondary);
+                gradPlasma.addColorStop(1, skin.primary);
+                context.fillStyle = gradPlasma;
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fill();
+                break;
+
+            case "frost":
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = skin.primary;
+                context.fill();
+                context.strokeStyle = skin.secondary;
+                context.lineWidth = 3;
+                context.stroke();
+                // Draw star burst points interior
+                for (let i = 0; i < 4; i++) {
+                    let ang = (i * Math.PI / 2) + (frameTick * 0.01);
+                    context.beginPath();
+                    context.moveTo(x, y);
+                    context.lineTo(x + Math.cos(ang) * (size - 4), y + Math.sin(ang) * (size - 4));
+                    context.strokeStyle = "rgba(255,255,255,0.6)";
+                    context.lineWidth = 1.5;
+                    context.stroke();
+                }
+                break;
+
+            case "abyss":
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = skin.primary;
+                context.fill();
+                // Draw expanding core energy ring rings
+                let pulseR = (frameTick % 40) / 40 * size;
+                context.beginPath();
+                context.arc(x, y, pulseR, 0, Math.PI * 2);
+                context.strokeStyle = skin.secondary;
+                context.lineWidth = 2;
+                context.stroke();
+                break;
+
+            case "pulse":
+                let pulseSize = size + Math.sin(frameTick * 0.1) * 2;
+                context.arc(x, y, Math.max(2, pulseSize), 0, Math.PI * 2);
+                context.fillStyle = skin.primary;
+                context.fill();
+                context.shadowColor = skin.primary;
+                context.shadowBlur = 15;
+                break;
+
+            case "nebula":
+                let gradNeb = context.createLinearGradient(x - size, y - size, x + size, y + size);
+                gradNeb.addColorStop(0, skin.primary);
+                gradNeb.addColorStop(0.5, skin.secondary);
+                gradNeb.addColorStop(1, "#000000");
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = gradNeb;
+                context.fill();
+                break;
+
+            case "prism":
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = skin.primary;
+                context.fill();
+                for (let i = 0; i < 3; i++) {
+                    let rot = (frameTick * 0.02) + (i * Math.PI / 3);
+                    context.beginPath();
+                    context.arc(x + Math.cos(rot) * (size / 2), y + Math.sin(rot) * (size / 2), size / 4, 0, Math.PI * 2);
+                    context.fillStyle = "rgba(255,255,255,0.25)";
+                    context.fill();
+                }
+                break;
+
+            case "metallic":
+                let gradMet = context.createLinearGradient(x - size, y, x + size, y);
+                gradMet.addColorStop(0, "#442200");
+                gradMet.addColorStop(0.3, skin.primary);
+                gradMet.addColorStop(0.5, "#ffffff");
+                gradMet.addColorStop(0.7, skin.primary);
+                gradMet.addColorStop(1, skin.secondary);
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = gradMet;
+                context.fill();
+                break;
+
+            case "scales":
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = skin.primary;
+                context.fill();
+                context.lineWidth = 2;
+                context.strokeStyle = skin.secondary;
+                // Simple inner cell concentric scale rendering matrix loops
+                for (let r = size - 4; r > 0; r -= 6) {
+                    context.beginPath();
+                    context.arc(x, y, r, 0, Math.PI * 2);
+                    context.stroke();
+                }
+                break;
+
+            case "rune":
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = skin.secondary;
+                context.fill();
+                context.strokeStyle = skin.primary;
+                context.lineWidth = 2;
+                context.stroke();
+                // Draw runic geometric alignment crosshairs inside inner circles
+                context.beginPath();
+                context.rect(x - size/3, y - size/3, (size/3)*2, (size/3)*2);
+                context.stroke();
+                break;
+
+            case "matrix":
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = "#000000";
+                context.fill();
+                context.strokeStyle = skin.primary;
+                context.lineWidth = 2;
+                context.stroke();
+                // High-contrast neon interface gridlines simulation inside circles
+                context.beginPath();
+                context.moveTo(x - size, y); context.lineTo(x + size, y);
+                context.moveTo(x, y - size); context.lineTo(x, y + size);
+                context.strokeStyle = "rgba(0,255,255,0.4)";
+                context.stroke();
+                break;
+
+            default:
+                context.arc(x, y, size, 0, Math.PI * 2);
+                context.fillStyle = "#ffffff";
+                context.fill();
+        }
+
+        context.restore();
+    }
+
+    // =========================================================================
+    // 7. INTERACTIVE MOBILE JOYSTICK CONTROLLERS
+    // =========================================================================
+
+    function setupMobileJoystick() {
+        const base = document.getElementById("joystick-base");
+        const stick = document.getElementById("joystick-stick");
+        let activeTouchId = null;
+
+        base.addEventListener("touchstart", (e) => {
+            if (activeTouchId !== null) return;
+            const touch = e.changedTouches[0];
+            activeTouchId = touch.identifier;
+            processTouchMovement(touch);
+        });
+
+        base.addEventListener("touchmove", (e) => {
+            if (activeTouchId === null) return;
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                if (e.changedTouches[i].identifier === activeTouchId) {
+                    processTouchMovement(e.changedTouches[i]);
+                }
+            }
+        });
+
+        const resetStick = (e) => {
+            if (activeTouchId === null) return;
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                if (e.changedTouches[i].identifier === activeTouchId) {
+                    activeTouchId = null;
+                    joystickControlVector = { x: 0, y: 0 };
+                    stick.style.transform = "translate(-50%, -50%)";
+                }
+            }
+        };
+
+        base.addEventListener("touchend", resetStick);
+        base.addEventListener("touchcancel", resetStick);
+
+        function processTouchMovement(touch) {
+            const rect = base.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            let dx = touch.clientX - centerX;
+            let dy = touch.clientY - centerY;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            const maxRadius = rect.width / 2;
+
+            if (dist > maxRadius) {
+                dx = (dx / dist) * maxRadius;
+                dy = (dy / dist) * maxRadius;
+            }
+
+            stick.style.transform = `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px))`;
+            joystickControlVector = { x: dx / maxRadius, y: dy / maxRadius };
+        }
+    }
+
+    // =========================================================================
+    // 8. HIGH PERFORMANCE GRAPHIC LOOP ENGINE ENGINE LIFE CYCLE
+    // =========================================================================
+
+    function enterActiveGameplayLoop() {
+        document.getElementById("lobby-screen").classList.remove("active");
+        document.getElementById("game-screen").classList.add("active");
+
+        canvas = document.getElementById("primary-game-canvas");
+        ctx = canvas.getContext("2d");
+        handleWindowResizeViewport();
+
+        // Reset Session Variables
+        playerPos = { x: MAP_BOUNDS / 2, y: MAP_BOUNDS / 2 };
+        playerTargetPos = { x: MAP_BOUNDS / 2, y: MAP_BOUNDS / 2 };
+        playerSize = 20;
+        playerTargetSize = 20;
+        currentScore = 0;
+        foodEntities = [];
+        particleEntities = [];
+
+        spawnInitialFoodGrid();
+
+        window.addEventListener("mousemove", trackInputMouseMovements);
+
+        isRunning = true;
+        animationFrameId = requestAnimationFrame(gameLoopTickEngineLifecycle);
+    }
+
+    function exitActiveGameplayLoop() {
+        isRunning = false;
+        cancelAnimationFrame(animationFrameId);
+        window.removeEventListener("mousemove", trackInputMouseMovements);
+
+        // Process level calculations up to end state save
+        profileState.gamesPlayed++;
+        const xpGained = Math.floor(currentScore / 2);
+        profileState.xp += xpGained;
+        
+        let xpNeeded = profileState.level * 150;
+        let leveledUp = false;
+        while (profileState.xp >= xpNeeded) {
+            profileState.xp -= xpNeeded;
+            profileState.level++;
+            profileState.coins += 50; // Level reward bonus coins
+            xpNeeded = profileState.level * 150;
+            leveledUp = true;
+        }
+
+        if (currentScore > profileState.bestScore) profileState.bestScore = currentScore;
+        if (playerSize > profileState.bestSize) profileState.bestSize = playerSize;
+
+        writeProfileToStorage();
+
+        document.getElementById("game-screen").classList.remove("active");
+        document.getElementById("lobby-screen").classList.add("active");
+        
+        let endingSummaryMsg = `You scored ${currentScore} points and gained ${xpGained} XP.`;
+        if (leveledUp) endingSummaryMsg += `\nLEVEL UP! reached Level ${profileState.level}. (+50 Coins)`;
+        showSystemDialog("Game Over", endingSummaryMsg);
+    }
+
+    function handleWindowResizeViewport() {
+        if (!canvas) return;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    function trackInputMouseMovements(e) {
+        pointerCoordinates = { x: e.clientX, y: e.clientY };
+    }
+
+    function spawnInitialFoodGrid() {
+        const totalFoodCount = 350;
+        const types = Object.keys(FOOD_CONFIG);
+        for (let i = 0; i < totalFoodCount; i++) {
+            let selectedType = "common";
+            let rng = Math.random();
+            let runningSum = 0;
+            for (let t of types) {
+                runningSum += FOOD_CONFIG[t].chance;
+                if (rng <= runningSum) {
+                    selectedType = t;
+                    break;
+                }
+            }
+            foodEntities.push({
+                x: Math.random() * MAP_BOUNDS,
+                y: Math.random() * MAP_BOUNDS,
+                type: selectedType
+            });
+        }
+    }
+
+    function emitExplosionParticles(x, y, color, count) {
+        for(let i=0; i<count; i++) {
+            let angle = Math.random() * Math.PI * 2;
+            let speed = 1 + Math.random() * 4;
+            particleEntities.push({
+                x: x, y: y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                color: color,
+                life: 1.0,
+                decay: 0.02 + Math.random() * 0.03
+            });
+        }
+    }
+
+    // =========================================================================
+    // 9. RECURSIVE TICK LIFE SYSTEM & COLLISION MECHANICS
+    // =========================================================================
+
+    let currentFrameTickCounter = 0;
+
+    function gameLoopTickEngineLifecycle() {
+        if (!isRunning) return;
+        currentFrameTickCounter++;
+
+        // Calculate calculated speed variables based on size configurations
+        // Core mechanic rule: larger size reduces operational velocity slightly
+        let invertedSpeedFactor = 3.5 - Math.min(2.0, (playerSize / 150));
+        
+        let moveX = 0;
+        let moveY = 0;
+
+        if (isMobileDevice) {
+            moveX = joystickControlVector.x * invertedSpeedFactor;
+            moveY = joystickControlVector.y * invertedSpeedFactor;
+        } else {
+            // Check Keyboard overrides first
+            let activeKeyTriggered = false;
+            if (activeKeys["w"] || activeKeys["arrowup"]) { moveY = -invertedSpeedFactor; activeKeyTriggered = true; }
+            if (activeKeys["s"] || activeKeys["arrowdown"]) { moveY = invertedSpeedFactor; activeKeyTriggered = true; }
+            if (activeKeys["a"] || activeKeys["arrowleft"]) { moveX = -invertedSpeedFactor; activeKeyTriggered = true; }
+            if (activeKeys["d"] || activeKeys["arrowright"]) { moveX = invertedSpeedFactor; activeKeyTriggered = true; }
+
+            if (!activeKeyTriggered && pointerCoordinates.x !== 0) {
+                // Default to Mouse vectors calculation relative to screen display centroids
+                const dMouseX = pointerCoordinates.x - (canvas.width / 2);
+                const dMouseY = pointerCoordinates.y - (canvas.height / 2);
+                const distMouse = Math.sqrt(dMouseX*dMouseX + dMouseY*dMouseY);
+                if (distMouse > 10) {
+                    moveX = (dMouseX / distMouse) * invertedSpeedFactor;
+                    moveY = (dMouseY / distMouse) * invertedSpeedFactor;
+                }
+            }
+        }
+
+        // Apply spatial constraints updates bounding
+        playerPos.x = Math.max(0, Math.min(MAP_BOUNDS, playerPos.x + moveX));
+        playerPos.y = Math.max(0, Math.min(MAP_BOUNDS, playerPos.y + moveY));
+
+        // Smooth visual interpolations calculations
+        playerSize += (playerTargetSize - playerSize) * 0.1;
+
+        // Perform spatial checks on collisions
+        for (let i = foodEntities.length - 1; i >= 0; i--) {
+            let food = foodEntities[i];
+            let dx = food.x - playerPos.x;
+            let dy = food.y - playerPos.y;
+            let sqDist = dx*dx + dy*dy;
+            let limitRadius = playerSize + FOOD_CONFIG[food.type].radius;
+
+            if (sqDist < limitRadius * limitRadius) {
+                // Feed consumption actions trigger
+                let conf = FOOD_CONFIG[food.type];
+                currentScore += conf.value;
+                playerTargetSize += conf.value * 0.35;
+                
+                // Real-time currency drops simulation (chance-based on epic/legendary eats)
+                if (food.type === "epic") profileState.coins += 1;
+                if (food.type === "legendary") profileState.coins += 3;
+
+                emitExplosionParticles(food.x, food.y, conf.color, conf.value + 3);
+
+                // Instantly replace food item elsewhere out of bounds view
+                foodEntities[i] = {
+                    x: Math.random() * MAP_BOUNDS,
+                    y: Math.random() * MAP_BOUNDS,
+                    type: Object.keys(FOOD_CONFIG)[Math.floor(Math.random() * Object.keys(FOOD_CONFIG).length)]
+                };
+            }
+        }
+
+        // Update active particle items arrays loops
+        for (let i = particleEntities.length - 1; i >= 0; i--) {
+            let p = particleEntities[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= p.decay;
+            if (p.life <= 0) particleEntities.splice(i, 1);
+        }
+
+        // Check loss state conditions: For an endless Agar style game, map boundary hits or maximum size testing ends run
+        if (currentFrameTickCounter > 1 && playerSize >= 450) {
+            exitActiveGameplayLoop();
+            return;
+        }
+
+        // Execution of internal graphic rendering pass layers
+        executeCanvasDrawRenderPipeline();
+
+        // Update critical HUD monitors elements text fields
+        document.getElementById("hud-val-score").innerText = currentScore;
+        document.getElementById("hud-val-size").innerText = Math.floor(playerSize);
+        document.getElementById("hud-val-level").innerText = profileState.level;
+        document.getElementById("hud-val-coins").innerText = profileState.coins;
+        document.getElementById("hud-val-best").innerText = profileState.bestScore;
+
+        animationFrameId = requestAnimationFrame(gameLoopTickEngineLifecycle);
+    }
+
+    // =========================================================================
+    // 10. GRID MATRIX CANVAS GRAPHICS DRAW ENGINE PIPELINE
+    // =========================================================================
+
+    function executeCanvasDrawRenderPipeline() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Core Requirement: Camera behavior always visually centered on screen.
+        // Map and all objects move relative to the player position parameters.
+        const originCameraX = canvas.width / 2 - playerPos.x;
+        const originCameraY = canvas.height / 2 - playerPos.y;
+
+        // Render Fantasy Grid lines simulation sequence
+        ctx.save();
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.018)";
+        ctx.lineWidth = 1;
+        const sizeGrid = 50;
+        
+        // Optimize grid start and end markers to only parse local screen areas fields
+        let gridStartX = Math.floor((-originCameraX) / sizeGrid) * sizeGrid;
+        let gridEndX = gridStartX + canvas.width + sizeGrid;
+        let gridStartY = Math.floor((-originCameraY) / sizeGrid) * sizeGrid;
+        let gridEndY = gridStartY + canvas.height + sizeGrid;
+
+        for (let x = Math.max(0, gridStartX); x <= Math.min(MAP_BOUNDS, gridEndX); x += sizeGrid) {
+            ctx.beginPath();
+            ctx.moveTo(x + originCameraX, Math.max(0, gridStartY) + originCameraY);
+            ctx.lineTo(x + originCameraX, Math.min(MAP_BOUNDS, gridEndY) + originCameraY);
+            ctx.stroke();
+        }
+        for (let y = Math.max(0, gridStartY); y <= Math.min(MAP_BOUNDS, gridEndY); y += sizeGrid) {
+            ctx.beginPath();
+            ctx.moveTo(Math.max(0, gridStartX) + originCameraX, y + originCameraY);
+            ctx.lineTo(Math.min(MAP_BOUNDS, gridEndX) + originCameraX, y + originCameraY);
+            ctx.stroke();
+        }
+        ctx.restore();
+
+        // Render Boundaries maps walls
+        ctx.save();
+        ctx.strokeStyle = "rgba(0, 240, 255, 0.4)";
+        ctx.lineWidth = 4;
+        ctx.shadowColor = "var(--accent-glow)";
+        ctx.shadowBlur = 10;
+        ctx.strokeRect(originCameraX, originCameraY, MAP_BOUNDS, MAP_BOUNDS);
+        ctx.restore();
+
+        // Render Food Objects loops
+        for (let i = 0; i < foodEntities.length; i++) {
+            let food = foodEntities[i];
+            let fConfig = FOOD_CONFIG[food.type];
+            let renderX = food.x + originCameraX;
+            let renderY = food.y + originCameraY;
+
+            // Frustum clipping optimization check loop parameters
+            if (renderX < -20 || renderX > canvas.width + 20 || renderY < -20 || renderY > canvas.height + 20) continue;
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(renderX, renderY, fConfig.radius, 0, Math.PI * 2);
+            ctx.fillStyle = fConfig.color;
+            ctx.shadowColor = fConfig.color;
+            ctx.shadowBlur = fConfig.glow;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Render Particles matrices loops layers
+        for (let i = 0; i < particleEntities.length; i++) {
+            let p = particleEntities[i];
+            ctx.save();
+            ctx.globalAlpha = p.life;
+            ctx.beginPath();
+            ctx.arc(p.x + originCameraX, p.y + originCameraY, 2, 0, Math.PI * 2);
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Render Local Player Centroid icon element explicitly matching design spec overrides
+        const targetActiveSkin = SKIN_REGISTRY.find(s => s.id === profileState.equippedSkin) || SKIN_REGISTRY[0];
+        renderVectorSkinCircle(ctx, canvas.width / 2, canvas.height / 2, playerSize, targetActiveSkin, currentFrameTickCounter);
+
+        // Render Text Label nameplates above user center targets
+        ctx.save();
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "bold 14px var(--font-stack)";
+        ctx.textAlign = "center";
+        ctx.shadowColor = "#000000";
+        ctx.shadowBlur = 4;
+        ctx.fillText(profileState.username, canvas.width / 2, canvas.height / 2 - playerSize - 8);
+        ctx.restore();
+    }
+
+    // Initialize application layer sequencing scripts routines automatically
+    window.addEventListener("DOMContentLoaded", () => {
+        loadProfileFromStorage();
+        initInterfaceListeners();
+    });
+
+})();
